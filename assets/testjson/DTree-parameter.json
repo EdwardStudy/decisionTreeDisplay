@@ -1,0 +1,142 @@
+[
+	{
+		"name":        "pDateSuccess",
+		"formula":     "10%",
+		"category":    "probability",
+		"display":     true,
+		"description": "泡妞成功的可能性"
+	},
+	{
+		"name":        "pDate",
+		"formula":     "30%",
+		"category":    "probability",
+		"display":     true,
+		"description": "约会的可能性"
+	},
+	{
+		"name":        "pDinning",
+		"formula":     null,
+		"category":    "probability",
+		"display":     true,
+		"description": "喝酒的可能性"
+	},
+	{
+		"name":        "cDate",
+		"formula":     "cKTV+cGift",
+		"category":    "cost",
+		"display":     true,
+		"description": "约会开销"
+	},
+	{
+		"name":        "cKTV",
+		"formula":     null,
+		"category":    "cost",
+		"display":     true,
+		"description": "唱K开销"
+	},
+	{
+		"name":        "cGift",
+		"formula":     null,
+		"category":    "cost",
+		"display":     true,
+		"description": "给女生的小礼物"
+	},
+	{
+		"name":        "cDateSuccess",
+		"formula":     "dis_cDateSuccess",
+		"category":    "cost",
+		"display":     true,
+		"description": "约会成功的后续开销"
+	},
+	{
+		"name":        "cDateFail",
+		"formula":     "0",
+		"category":    "cost",
+		"display":     true,
+		"description": "约会失败的后续开销"
+	},
+	{
+		"name":        "cShopping",
+		"formula":     "pClothesbuying*cClothes",
+		"category":    "cost",
+		"display":     true,
+		"description": "逛街开销"
+	},
+	{
+		"name":        "cClothes",
+		"formula":     "dis_Clothes",
+		"category":    "cost",
+		"display":     true,
+		"description": "衣服价格"
+	},
+	{
+		"name":        "pClothesbuying",
+		"formula":     "32%",
+		"category":    "probability",
+		"display":     true,
+		"description": "买衣服可能性"
+	},
+	{
+		"name":        "cDinning",
+		"formula":     "200",
+		"category":    "cost",
+		"display":     true,
+		"description": "跟哥们吃饭的开销"
+	},
+	{
+		"name":        "cStudy",
+		"formula":     "0",
+		"category":    "cost",
+		"display":     true,
+		"description": "上自习的开销"
+	},
+	{
+		"name":        "cDOTA",
+		"formula":     "10",
+		"category":    "cost",
+		"display":     true,
+		"description": "网吧的开销"
+	},
+	{
+		"name":        "uDateSuccess",
+		"formula":     "10",
+		"category":    "happiness",
+		"display":     true,
+		"description": "泡妞成功的心情"
+	},
+	{
+		"name":        "uDateFail",
+		"formula":     "1",
+		"category":    "happiness",
+		"display":     true,
+		"description": "泡妞失败的心情"
+	},
+	{
+		"name":        "uShopping",
+		"formula":     "5",
+		"category":    "happiness",
+		"display":     true,
+		"description": "陪妞逛街的心情"
+	},
+	{
+		"name":        "uDinning",
+		"formula":     "6",
+		"category":    "happiness",
+		"display":     true,
+		"description": "和哥们吃饭的心情"
+	},
+	{
+		"name":        "uStudy",
+		"formula":     "4",
+		"category":    "happiness",
+		"display":     true,
+		"description": "上自习的心情"
+	},
+	{
+		"name":        "uDOTA",
+		"formula":     "6",
+		"category":    "happiness",
+		"display":     true,
+		"description": "玩DOTA的心情"
+	}
+]
