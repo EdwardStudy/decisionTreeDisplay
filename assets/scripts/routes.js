@@ -11,7 +11,10 @@ define([], function()
 					'Create/services/c-DTree-service',
 					'Common/directives/UIDirective',
 					'Common/services/dialog-service'
-                ]
+                ],
+                // data: {
+                //     access: access.user
+                // }
             },
             '/publish': {
                 templateUrl: '/views/v_Publish/tpl-P.html',

@@ -32,6 +32,8 @@
                                 <input  type="text"
                                         class="form-control"
                                         placeholder="User name"
+                                        id="username"
+                                        ng-model="username"
                                         >
                             </div>
                         </div>
@@ -43,6 +45,8 @@
                                 <input type="email"
                                        class="form-control"
                                        placeholder="Email"
+                                       id="email"
+                                       ng-model="email"
                                         >
                             </div>
                         </div>
@@ -54,6 +58,8 @@
                                 <input type="password"
                                        class="form-control"
                                        placeholder="Password"
+                                       id="password"
+                                       ng-model="password"
                                         >
                             </div>
                         </div>
@@ -62,7 +68,7 @@
                             <p class="text-muted text-small">By clicking on Sign up, you agree to <a href="javascript:;">terms & conditions</a> and <a href="javascript:;">privacy policy</a></p>
                             <div class="divider"></div>
                             <button type="submit"
-                                    class="btn btn-primary btn-block btn-lg" id="signupButton">Sign up</button>
+                                    class="btn btn-primary btn-block btn-lg" id="signupButton" ng-click="signup()">Sign up</button>
                         </div>
 
                     </form>

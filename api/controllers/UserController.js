@@ -12,12 +12,13 @@ module.exports = {
 		var	email = req.param('email');
 		var	password = req.param('password');
 
+		//状态码 0为成功， 1为email已经注册
         Users.findOne(email).exec(function(err, usr){
             if (err) {
                 res.send(500, { error: "DB Error" });
             } else if (usr) {
-            	console.log('Create usr with email' + usr.email);
-                res.send(400, {error: "Username already Taken"});
+            	console.log('Create user with email' + usr.email);
+                res.json({status: 1});
             } else {
                 var hasher = require("password-hash");
                 password = hasher.generate(password);
@@ -27,8 +28,8 @@ module.exports = {
 	                    res.send(500, {error: "DB Error"});
 	                } else {
 	                    req.session.user = usr;
-	                    console.log('Create usr ' + usr.username);
-	                    res.send(usr);
+	                    console.log('Create user ' + usr.username);
+	                    res.json({status: 0});
 	                }
 	            });
 	        }
@@ -39,31 +40,47 @@ module.exports = {
 	signin: function(req, res){
 	    var email = req.param("email");
 	    var password = req.param("password");
-	     
+	    //状态码 0为成功， 1为密码错误， 2为登录邮箱错误
 	    Users.findOne({email: email}).exec(function (err, usr) {
 	        if (err) {
-	            res.send(500, { error: "DB Error" });
+	            res.json({ error: "DB Error" });
 	        } else {
 	            if (usr) {
 	                var hasher = require("password-hash");
 	                if (hasher.verify(password, usr.password)) {
 	                    req.session.user = usr;
-	                    res.send(usr);
+	                    res.json({status: 0});
 	                } else {
-	                    res.send(400, { error: "Wrong Password" });
+	                    res.json({status: 1 });
 	                }
 	            } else {
-	                res.send(404, { error: "User for this email not Found" });
+	                res.json({status: 2 });
 	            }
 	        }
 	    });		
 	},
 
 	//登出·
-  logout: function (req, res) {
-    req.session = null
-    res.redirect('/');
-  },
+	logout: function (req, res) {
+		req.session.user = null;
+	},
+
+	  //访问控制
+	  checkSignin: function(req, res,next){
+	    if(!req.session.user){
+	      req.json({error: "未登录"});
+	      return res.redirect('/#/signin');
+	    }
+	    next();
+	  },
+
+	  checkNotSignin: function (req, res, next){
+	    if(req.session.user){
+	      req.json({error: "已登录"});
+	      return res.redirect('/#/');
+	    }
+	    next();
+	  },
 
 	//回传
 	callback: function(req, res){}

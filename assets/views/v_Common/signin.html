@@ -33,6 +33,7 @@
                                        class="form-control"
                                        placeholder="Email"
                                        id="email"
+                                       ng-model="email"
                                         >
                             </div>
                         </div>
@@ -45,13 +46,14 @@
                                        class="form-control"
                                        placeholder="password"
                                        id="password"
+                                       ng-model="password"
                                         >
                             </div>
                         </div>
                         <div class="form-group">
                         </div>
                         <div class="form-group">
-                            <a class="btn btn-primary btn-lg btn-block" id="signinButton">Log in</a>
+                            <a class="btn btn-primary btn-lg btn-block" id="signinButton" ng-click="signin()">Log in</a>
                         </div>
                     </fieldset>
                 </form>

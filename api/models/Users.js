@@ -8,12 +8,20 @@
 module.exports = {
 
   attributes: {
-  	username:'STRING',
-  	email: 'STRING',
-  	password:'STRING'
+  	username:{
+      type: 'string',
+      required: true
+    },
+    email: {
+      type: 'string',
+      unique: true,
+      required: true
+    },
+  	password:{
+      type: 'string',
+      required: true,
+      minLength: 6
+    },
   }
-
-
-
 };
 

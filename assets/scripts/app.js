@@ -21,7 +21,7 @@ define([
         'app.directives',
         'app.localization',
         'app.filter',//@todo delete
-        'app.task' //@todo delete
+        'app.task', //@todo delete
     ]).config([
         '$routeProvider',
         '$locationProvider',
@@ -33,7 +33,8 @@ define([
         '$urlRouterProvider',
 
         function($routeProvider, $locationProvider, $controllerProvider, $compileProvider, $filterProvider, $provide, $stateProvider, $urlRouterProvider){
-        	/////////////////////////////
+        	//var access = routingConfig.accessLevels;
+            /////////////////////////////
 	        // Redirects and Otherwise //
 	        /////////////////////////////
 	        

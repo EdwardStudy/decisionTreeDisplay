@@ -92,7 +92,7 @@
                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                     <img src="../lib/flatify-v1.0.1/images/g1.jpg" alt="" class="img-circle img30_30">
                     <span class="hidden-xs">
-                        <span data-i18n="Lisa Doe"></span>
+                        <span data-i18n="Lisa Doe">{{user.username}}</span>
                     </span>
                 </a>
                 <ul class="dropdown-menu with-arrow pull-right">
@@ -117,7 +117,7 @@
                     <li>
                         <a ui-sref="/signin">
                             <i class="fa fa-sign-out"></i>
-                            <span data-i18n="Log Out"></span>
+                            <span data-i18n="Log Out" ng-click="logout()"></span>
                         </a>
                     </li>
                 </ul>
