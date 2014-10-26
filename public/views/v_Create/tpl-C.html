@@ -1,0 +1,250 @@
+<div class="app-layout" app-layout ng-controller="createDTreeCtrl">
+    <!-- canvas-option-->
+    <div id="canvas-option" class="btn btn-group-vertical round" ng-class="canvasUiStyle">
+        <a role="button" class="btn btn-default" id="co-find-root"
+           tooltip="reset" tooltip-placement="left" tooltip-popup-delay="1000"><i
+                class="glyphicon glyphicon-map-marker"></i></a>
+        <a class="btn btn-default" role="button" id="co-zoom-in"
+           tooltip="zoom in" tooltip-placement="left" tooltip-popup-delay="1000"><i class="fa fa-plus"></i>
+        </a>
+        <a role="button" class="btn btn-default" id="co-zoom-out"
+           tooltip="zoom out" tooltip-placement="left" tooltip-popup-delay="1000"><i class="fa fa-minus"></i>
+        </a>
+        <a role="button" class="btn btn-default" id="co-undo"
+           tooltip="undo" tooltip-placement="left" tooltip-popup-delay="1000"><i class="fa fa-undo"></i>
+        </a>
+        <a role="button" class="btn btn-default" id="co-redo"
+           tooltip="redo" tooltip-placement="left" tooltip-popup-delay="1000"><i class="fa fa-repeat"></i>
+        </a>
+        <a role="button" class="btn btn-default" id="co-collapse"
+           tooltip="collapse all nodes" tooltip-placement="left" tooltip-popup-delay="1000"><i
+                class="fa fa-compress"></i>
+        </a>
+
+        <button type="button" class="btn btn-default"
+                popover-placement="left"
+                popover-title="style select"
+                popover-trigger="focus"
+                popover='<div class="subsection bordered image grid">
+                                <ul >
+                                    <li><a href="" canvas-ui-switch="blue-print"><span><img src="styles/img/blueprint.png" title="blue-print"></span></a></li>
+                                    <li><a href="" canvas-ui-switch="white-print"><span><img src="styles/img/fresh.png" title="white-print"></span></a></li>
+                                </ul>
+                            </div>'
+                ><i class="fa fa-gear"></i></button>
+    </div>
+    <!-- ui-layout-center -->
+    <div class="ui-layout-center ui-layout-canvas">
+        <!--canvas of Dtree -->
+        <div id="canvas" ng-class="canvasUiStyle">
+            <!-- Dtree -->
+            <dtree data="treeData" option="treeOptions"></dtree>
+        </div>
+        <!-- end of canvas -->
+
+        <!-- context-menu, the menu for common node of Dtree -->
+        <div id="context-menu">
+            <ul class="dropdown-menu" role="menu">
+                <li class="dropdown-submenu">
+                    <a tabindex="-1" href="javascript:void(0);" id="insert-node" class="context-menu-item"
+                       title="(enter)"><span class="glyphicon glyphicon-pushpin"></span>&nbsp;&nbsp;insert node</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a tabindex="-1" href="javascript:void(0);" class="context-menu-item"
+                               id="insert-change-node">Change</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="context-menu-item"
+                               id="insert-terminal-node">Terminal</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="context-menu-item"
+                               id="insert-decision-node">Decision</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown-submenu">
+                    <a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="change-node"
+                       title="(blank)"><span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;change node</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a tabindex="-1" href="javascript:void(0);" class="context-menu-item"
+                               id="change-to-change-node">Change</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="context-menu-item" id="change-to-decision-node">Decision</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="context-menu-item" id="change-to-terminal-node">Terminal</a>
+                        </li>
+                    </ul>
+                </li>
+                <!--<li class="disabled"><a tabindex="-1" href="javascript:void(0);" class="context-menu-item"-->
+                <!--id="clone-node" title="(C)"><i class="fa fa-cubes"></i>&nbsp;&nbsp;clone </a>-->
+                <!--</li>-->
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item"
+                       id="select-subtree" title="(S)"><i class="fa fa-tree"></i>&nbsp;&nbsp;select subtree </a>
+                </li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item"
+                       id="add-tip" title="(T)"><i class="fa fa-file-text"></i>&nbsp;&nbsp;add tip </a>
+                </li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item"
+                       id="remove-tip" title="(T)"><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;remove tip </a>
+                </li>
+                <li class="divider"></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="evaluation-node"
+                       title="(E)"><i class="fa fa-building-o"></i>&nbsp;&nbsp;evaluation </a></li>
+                <li class="divider"></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="cut-node"
+                       title="(ctrl+x)"><i class="fa fa-scissors"></i>&nbsp;&nbsp;cut</a></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="copy-node"
+                       title="(ctrl+c)"><i class="fa fa-files-o"></i>&nbsp;&nbsp;copy </a></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="paste-node"
+                       title="(ctrl+v)"><i class="fa fa-clipboard"></i>&nbsp;&nbsp;paste </a></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="delete-node"
+                       title="(delete)"><i class="fa fa-times"></i>&nbsp;&nbsp;delete </a></li>
+            </ul>
+        </div>
+        <!-- end of context-menu -->
+
+
+        <!-- end-area-menu, another menu for terminal node-box -->
+        <div id="end-area-menu">
+            <ul class="dropdown-menu" role="menu">
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="align-payoff"
+                       title="(E)"><i class="fa fa-align-right"></i>&nbsp;&nbsp;align</a></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="not-align-payoff"
+                       title="(E)"><i class="fa fa-align-center"></i>&nbsp;&nbsp;not align</a></li>
+                <li class="divider"></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="edit-payoff"
+                       title="(E)"><i class="fa fa-edit"></i>&nbsp;&nbsp;edit payoff</a></li>
+                <li class="divider"></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="uncheck-this-path"
+                       title="(E)"><i class="fa fa-ban"></i>&nbsp;&nbsp;uncheck path</a></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="check-this-path"
+                       title="(E)"><i class="fa fa-code-fork fa-rotate-90"></i>&nbsp;&nbsp;&nbsp;check path</a></li>
+
+            </ul>
+        </div>
+        <!-- end of end-area-menu -->
+    </div>
+    <!-- end of ui-layout-center -->
+
+    <!-- ui-layout-south -->
+    <div class="ui-layout-south">
+        <div class="ui-tab-container">
+            <tabset class="ui-tab">
+                <tab heading="select Dtrees">
+                    <div class="row button-bar">
+                        <h5>select the decision tree you want to show</h5>
+                        <div class="col-md-8">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-line-primary" ng-click="selectDtreeData('Dtree-structure1')">Dtree1</button>
+                                <button type="button" class="btn btn-line-primary" ng-click="selectDtreeData('Dtree-structure')">Dtree-晚上干嘛</button>
+                                <button type="button" class="btn btn-line-primary" ng-click="selectDtreeData('Dtree-structure2')">Dtree-成本分析</button>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+                <tab heading="variable Definitions">
+                    <div class="row button-bar">
+                        <div class="col-md-8">
+                            <div class="widget-container">
+                                <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-primary" ng-click="resetTreeData()"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-success"><i class="fa fa-plus"></i></a>
+                                <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-danger"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <input type="text" class="form-control">
+                            <span class="icon glyphicon glyphicon-search"></span>
+                        </div>
+                    </div>
+                    <div angrid="variablesTableSetting" class="with-button-bar"></div>
+                </tab>
+                <tab heading="Markov Info">
+                    <div angrid="angridOptions"></div>
+
+                </tab>
+                <tab heading="Tree Properties">
+                    <tabset class="ui-tab tabs-left">
+                        <tab heading="variables">
+                            <div class="row button-bar">
+                                <div class="col-md-3">
+                                    <div class="widget-container">
+                                        <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-primary"><i class="fa fa-edit"></i></a>
+                                        <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-success"><i class="fa fa-plus"></i></a>
+                                        <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-danger"><i class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <input type="text" class="form-control">
+                                    <span class="icon glyphicon glyphicon-search"></span>
+                                </div>
+                            </div>
+                            <div angrid="variablesTableSetting" class="with-button-bar"></div>
+                        </tab>
+                        <tab heading="tables">
+                            <div angrid="angridOptions"></div>
+                        </tab>
+                        <tab heading="distribution">
+                            <div angrid="angridOptions"></div>
+                        </tab>
+                        <tab heading="general">
+                            <div angrid="angridOptions"></div>
+                        </tab>
+                    </tabset>
+                </tab>
+                <tab heading="Tree style">
+                    <div angrid="angridOptions"></div>
+                </tab>
+            </tabset>
+        </div>
+        <!-- end of ui-layout-south -->
+
+        <!--<div class="widget-body">-->
+            <!--<div class="tabs-left">-->
+                <!--<ul class="nav nav-tabs tabs-left" id="demo-pill-nav">-->
+                    <!--<li class="active">-->
+                        <!--<a href="#tab-parameter" data-toggle="tab"><span class="badge badge-success">8</span>Parameter-->
+                        <!--</a>-->
+                    <!--</li>-->
+                    <!--<li class="">-->
+                        <!--<a href="#tab-distribution" data-toggle="tab"><span class="badge badge-success">1</span>Distribution</a>-->
+                    <!--</li>-->
+                    <!--<li class="">-->
+                        <!--<a href="#tab-table" data-toggle="tab">Table</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+
+                <!--<div class="tab-content">-->
+                    <!--<div class="tab-pane active" id="tab-parameter">-->
+                        <!--<div angrid="variablesTableSetting"></div>-->
+                    <!--</div>-->
+                    <!--<div class="tab-pane" id="tab-distribution">-->
+                        <!--<div class="widget">-->
+                            <!--<p>waaaaaaa!</p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="tab-pane" id="tab-table">-->
+                        <!--<div angrid="angridOptions"></div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+    </div>
+</div>
+
+<!--
+	This is the template for the main dialog that is displayed. It uses the
+dialogCtrl controller in app.js.
+-->
+<script type="text/ng-template" id="dialogTemplate.html">
+    <div ng-controller="dialogCtrl">
+        <div angrid="model"></div>
+        <div>
+            <button ng-click="cancelClick()">Cancel</button>
+        </div>
+    </div>
+</script>
