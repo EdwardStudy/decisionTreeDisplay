@@ -1,5 +1,6 @@
 # decisionTree
-
+项目结构
+```
 ├── app 						    -- server-side
 │   ├── controllers                -- auth controller uses passport middleware
 │   ├── models                     -- user model define user schema
@@ -14,3 +15,4 @@
 │
 │
 └── node_modules
+```
