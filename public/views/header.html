@@ -92,7 +92,7 @@
                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                     <img src="../lib/flatify-v1.0.1/images/g1.jpg" alt="" class="img-circle img30_30">
                     <span class="hidden-xs">
-                        <span data-i18n="Lisa Doe"></span>
+                        <span>{{user.local.email}}</span>
                     </span>
                 </a>
                 <ul class="dropdown-menu with-arrow pull-right">
@@ -115,9 +115,13 @@
                         </a>
                     </li>
                     <li>
+<!--                         <a ui-sref="/signin">
+                            <i class="fa fa-sign-out"></i>
+                            <span data-i18n="Lock"></span> -->
                         <form action="/signout" method="post" accept-charset="utf-8" target="target">
-                            <i class="fa fa-sign-out"></i><input type="submit" name="signout" data-i18n="Log Out" />
+                            <input type="submit" name="signout" data-i18n="Log Out" />
                         </form>
+ <!--                        </a> -->
                         <!-- <a ui-sref="/signin">
                             <i class="fa fa-sign-out"></i>
                             <span ></span>
@@ -125,7 +129,6 @@
                     </li>
                 </ul>
             </li>
-
         </ul>        
     </div>
 

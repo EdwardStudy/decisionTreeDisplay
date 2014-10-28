@@ -150,16 +150,6 @@ define([
                 brand: 'DTree',
                 name: 'Lisa Doe'
             }
-            $scope.$watch($scope.user, function (newVal, oldVal) {
-              console.log($scope.user);
-              if($scope.user){
-                  if ($scope.user.facebook) {
-                      $scope.main.name = $scope.user.facebook.name;
-                  } else if ($scope.user.local) {
-                      $scope.main.name = $scope.user.local.email;
-                  }
-              }
-            });
         }
     ])
     .controller('NavCtrl', [
