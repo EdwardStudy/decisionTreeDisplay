@@ -1,0 +1,65 @@
+//本文件是dtree的结构说明，不能拿来运行
+//made by ZhangDi, 20141125
+
+//每个dtree的结构，包含三大部分config, parameter, structure
+{
+  "config":    { //config,用于存储决策树的一般配置信息，会涉及到显示模式
+    "name":           "空白的决策树", //名称
+    "description":    "",            //对决策树的介绍，由用户输入
+    "last_saved":     "07/10/2014 09:10:53",  //最近一次修改时间
+    "create_time":    "07/10/2014 09:10:53", //首次创建的时间
+    "security_level": "private",   //安全等级，有私有，保护，完全公开三种模式
+    "layout_style":   "white-print", //决策树的主题样式，目前有blue-print和white-print两种
+
+    "depth":       1,     //决策树的深度
+    "layer_width": [300], //决策树每一层的宽度(单位px)
+
+    "show_title":         true,  //是否显示每一个节点的标题
+    "show_info":          true,  //是否显示每一个节点的info（就是各种变量信息）
+    "show_default_info":  true,  //是否显示每一个节点的默认的info（现在没用，以后也可能删掉）
+    "show_compiled_info": true,  //是否显示每一个节点的编译过的info（现在没用，以后也可能删掉）
+    "show_parsed_info":   true,  //是否显示每一个节点的解析过的info（现在没用，以后也可能删掉）
+    "show_variable":      true,  //是否显示每一个节点的变量
+    "show_tracker":       true,  //是否显示每一个节点的追踪值
+    "show_payoff":        true   //是否显示每一个节点的反馈值
+  },
+  "parameter": [ //parameter，变量定义，里面用对象数组方式存每一个变量
+    {
+      "pid": 1,  //变量ID
+      "name":        "pDateSuccess", //变量名称
+      "formula":     "10%", //变量的公式
+      "category":    "probability", //变量的类别，类别可由用户定义，用于区别变量
+      "display":     true,  //是否显示出来
+      "description": "泡妞成功的可能性" //变量的描述，由用户自己输入
+    }
+  ],
+  "structure": { //structure， 树形结构，用树形结构定义每个节点及其参数
+    "id":                1,  //节点id,
+    "name":              "", //节点名称,
+    "type":              "decision",//节点类型，有decison（显示为方块） ,change（显示为圆圈）, termial（显示为三角）, markov等等
+    "change":              null, //本来是存概率的，据说很重要，但是现在没用
+    "markov_info":       null,  //存马尔科夫信息的，但是现在没用
+    "variable":          [ //存放该节点所定义的变量，里面变量的格式与parameter里完全一样
+      {
+        "pid": 1,
+        "name":        "pDateSuccess",
+        "formula":     "10%",
+        "category":    "probability",
+        "display":     true,
+        "description": "泡妞成功的可能性"
+      }
+    ],
+    "tracker":           [], //存放该定义在该节点上的追踪值，这是为计算预留的存储空间，暂时没用
+    "payoff":            [], //存放该定义在该节点上的反馈值，这是为计算预留的存储空间，暂时没用
+    "compiled_prob":     [], //存放该定义在该节点上的编译过后的概率，这是为计算预留的存储空间，暂时没用
+    "compiled_variable": [], //存放该定义在该节点上的编译过后的变量，这是为计算预留的存储空间，暂时没用
+    "compiled_tracker":  [],//存放该定义在该节点上的编译过后的追踪值，这是为计算预留的存储空间，暂时没用
+    "compiled_payoff":   [],//存放该定义在该节点上的编译过后的反馈值，这是为计算预留的存储空间，暂时没用
+    "parsed_prob":       [],//存放该定义在该节点上的解析过后的概率，这是为计算预留的存储空间，暂时没用
+    "parsed_variable":   [],//存放该定义在该节点上的解析过后的变量，这是为计算预留的存储空间，暂时没用
+    "parsed_tracker":    [],//存放该定义在该节点上的解析过后的追踪值，这是为计算预留的存储空间，暂时没用
+    "parsed_payoff":     [],//存放该定义在该节点上的解析过后的反馈值，这是为计算预留的存储空间，暂时没用
+    "children":          [],//存放子节点，子节点格式与structure一样
+    "_children":         [] //存放子节点，子节点格式与structure一样，这个_children主要是为了前端显示时缩放节点时，临时存放子节点的东东
+  }
+}

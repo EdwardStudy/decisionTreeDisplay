@@ -15,6 +15,7 @@ module.exports = {
     app: {
       name: "angular-express-session-authentication"
     },
+    //第三方登录的泛型
     facebook: {
       clientID: "481914391941067",
       clientSecret: "0a1cb8b41c20ed13490b1ea494e5ec03",

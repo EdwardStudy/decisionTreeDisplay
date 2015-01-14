@@ -23,10 +23,15 @@ module.exports = function (app, config, passport) {
     app.set('port', process.env.PORT || 4000);
     app.use(express.static(config.root + '/public'));
     app.use(express.logger('dev'));
-    app.use(express.bodyParser());
+    //app.use(express.bodyParser());
+    //instead
+    //also can ignore warning:connect.multipart() will be removed in connect 3.0
+    app.use(express.urlencoded());
+    app.use(express.json());
+
     app.use(express.methodOverride());
 
-    // setup for cookie based session 
+    // setup for cookie based session
     app.use(express.cookieParser());
     app.use(express.cookieSession({
         secret: "thisisthefirstclasssecret",

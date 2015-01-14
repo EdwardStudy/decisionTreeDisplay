@@ -1,0 +1,42 @@
+{
+	"config":    {
+		"name":           "空白的决策树",
+		"description":    "",
+		"last_saved":     "07/10/2014 09:10:53",
+		"security_level": "private",
+		"layout_style":   "white-print",
+
+		"depth":       1,
+		"layer_width": [300],
+
+		"show_title":         true,
+		"show_info":          true,
+		"show_default_info":  true,
+		"show_compiled_info": true,
+		"show_parsed_info":   true,
+		"show_variable":      true,
+		"show_tracker":       true,
+		"show_payoff":        true
+	},
+	"parameter": [],
+	"structure": {
+		"id":                1,
+		"name":              "",
+		"type":              "decision",
+		"change":              null,
+		"markov_info":       null,
+		"variable":          [],
+		"tracker":           [],
+		"payoff":            [],
+		"compiled_prob":     [],
+		"compiled_variable": [],
+		"compiled_tracker":  [],
+		"compiled_payoff":   [],
+		"parsed_prob":       [],
+		"parsed_variable":   [],
+		"parsed_tracker":    [],
+		"parsed_payoff":     [],
+		"children":          [],
+		"_children":         []
+	}
+}

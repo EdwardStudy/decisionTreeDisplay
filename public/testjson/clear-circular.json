@@ -1,0 +1,320 @@
+[
+    {
+        "node_id": 1,
+        "parent_id": null,
+        "node_path_array": [],
+        "name": "what to do tonight",
+        "tip": "",
+        "type": "decision",
+        "markov_info": [],
+        "show_child": true,
+        "show_tip": true,
+        "prob": "",
+        "redefined_param_array": [
+            {
+                "param_id": 1,
+                "display": true,
+                "name": "pDate_accepted",
+                "formula": "40%",
+                "comment": "很有可能"
+            },
+            {
+                "param_id": 2,
+                "display": true,
+                "name": "pHave_time",
+                "formula": "",
+                "comment": "很有可能"
+            },
+            {
+                "param_id": 3,
+                "display": true,
+                "name": "weekdays",
+                "formula": "1",
+                "comment": "‘1’ means weekday; ‘0’ means weekend"
+            },
+            {
+                "param_id": 4,
+                "display": true,
+                "name": "pDota",
+                "formula": "40%",
+                "comment": ""
+            },
+            {
+                "param_id": 5,
+                "display": true,
+                "name": "pDrink",
+                "formula": "1-pDota",
+                "comment": ""
+            },
+            {
+                "param_id": 6,
+                "display": true,
+                "name": "cTaxi",
+                "formula": "100",
+                "comment": ""
+            },
+            {
+                "param_id": 7,
+                "display": true,
+                "name": "cBag",
+                "formula": "discount(2000; 2; disc_rate)",
+                "comment": ""
+            },
+            {
+                "param_id": 8,
+                "display": false,
+                "name": "cMovie",
+                "formula": "80",
+                "comment": ""
+            },
+            {
+                "param_id": 9,
+                "display": true,
+                "name": "uMovie",
+                "formula": "9",
+                "comment": ""
+            },
+            {
+                "param_id": 10,
+                "display": true,
+                "name": "cKaraoke",
+                "formula": "300",
+                "comment": ""
+            },
+            {
+                "param_id": 11,
+                "display": true,
+                "name": "uKaraoke",
+                "formula": "10",
+                "comment": ""
+            },
+            {
+                "param_id": 12,
+                "display": true,
+                "name": "uBag_bought",
+                "formula": "Dis_uBag_bought*10",
+                "comment": "uncertain: follow a beta distribution"
+            },
+            {
+                "param_id": 13,
+                "display": true,
+                "name": "uBag_not_bought",
+                "formula": "10",
+                "comment": ""
+            },
+            {
+                "param_id": 14,
+                "display": true,
+                "name": "uDate_rejected",
+                "formula": "3",
+                "comment": ""
+            },
+            {
+                "param_id": 15,
+                "display": true,
+                "name": "uBuddy_no_time",
+                "formula": "4",
+                "comment": ""
+            },
+            {
+                "param_id": 16,
+                "display": true,
+                "name": "cNet_cafe",
+                "formula": "cPer_hour_rate*hours",
+                "comment": ""
+            },
+            {
+                "param_id": 17,
+                "display": true,
+                "name": "uDota",
+                "formula": "7",
+                "comment": ""
+            },
+            {
+                "param_id": 18,
+                "display": true,
+                "name": "cWine",
+                "formula": "cFood_and_drink[1,2]",
+                "comment": ""
+            },
+            {
+                "param_id": 19,
+                "display": true,
+                "name": "cFood",
+                "formula": "cFood_and_drink[1,1]",
+                "comment": ""
+            },
+            {
+                "param_id": 20,
+                "display": true,
+                "name": "uDrink",
+                "formula": "8",
+                "comment": ""
+            },
+            {
+                "param_id": 21,
+                "display": true,
+                "name": "hours",
+                "formula": "5",
+                "comment": ""
+            },
+            {
+                "param_id": 22,
+                "display": true,
+                "name": "cPer_hour_rate",
+                "formula": "6",
+                "comment": ""
+            },
+            {
+                "param_id": 22,
+                "display": true,
+                "name": "disc_rate",
+                "formula": "3%",
+                "comment": ""
+            }
+        ],
+        "tracker_array": [],
+        "payoff_array": [],
+        "children": [],
+        "_children": [],
+        "depth": 0,
+        "x": 220,
+        "y": 566,
+        "info_content": "<p class='info-box-p' param_id='1'>pDate_accepted = 40%</p><p class='info-box-p' param_id='2'>pHave_time = </p><p class='info-box-p' param_id='3'>weekdays = 1</p><p class='info-box-p' param_id='4'>pDota = 40%</p><p class='info-box-p' param_id='5'>pDrink = 1-pDota</p><p class='info-box-p' param_id='6'>cTaxi = 100</p><p class='info-box-p' param_id='7'>cBag = discount(2000; 2; disc_rate)</p><p class='info-box-p' param_id='8'></p><p class='info-box-p' param_id='9'>uMovie = 9</p><p class='info-box-p' param_id='10'>cKaraoke = 300</p><p class='info-box-p' param_id='11'>uKaraoke = 10</p><p class='info-box-p' param_id='12'>uBag_bought = Dis_uBag_bought*10</p><p class='info-box-p' param_id='13'>uBag_not_bought = 10</p><p class='info-box-p' param_id='14'>uDate_rejected = 3</p><p class='info-box-p' param_id='15'>uBuddy_no_time = 4</p><p class='info-box-p' param_id='16'>cNet_cafe = cPer_hour_rate*hours</p><p class='info-box-p' param_id='17'>uDota = 7</p><p class='info-box-p' param_id='18'>cWine = cFood_and_drink[1,2]</p><p class='info-box-p' param_id='19'>cFood = cFood_and_drink[1,1]</p><p class='info-box-p' param_id='20'>uDrink = 8</p><p class='info-box-p' param_id='21'>hours = 5</p><p class='info-box-p' param_id='22'>cPer_hour_rate = 6</p><p class='info-box-p' param_id='22'>disc_rate = 3%</p>",
+        "info_height": 516,
+        "tip_content": "",
+        "tip_height": 0,
+        "boxArea_height": 552,
+        "status": "",
+        "x0": 220,
+        "y0": 566
+    },
+    {
+        "node_id": 2,
+        "parent_id": 1,
+        "node_path_array": [1],
+        "name": "Date a girl",
+        "tip": "找女伴玩去",
+        "type": "change",
+        "markov_info": [],
+        "show_child": true,
+        "show_tip": true,
+        "prob": "",
+        "redefined_param_array": [],
+        "tracker_array": [],
+        "payoff_array": [],
+        "children": [],
+        "_children": [],
+        "depth": 1,
+        "parent": {
+            "node_id": 1,
+            "parent_id": null,
+            "node_path_array": [],
+            "name": "what to do tonight",
+            "tip": "",
+            "type": "decision",
+            "markov_info": [],
+            "show_child": true,
+            "show_tip": true,
+            "prob": "",
+            "redefined_param_array": [
+                {
+                    "param_id": 1,
+                    "display": true,
+                    "name": "pDate_accepted",
+                    "formula": "40%",
+                    "comment": "很有可能"
+                },
+                {
+                    "param_id": 2,
+                    "display": true,
+                    "name": "pHave_time",
+                    "formula": "",
+                    "comment": "很有可能"
+                },
+                {
+                    "param_id": 3,
+                    "display": true,
+                    "name": "weekdays",
+                    "formula": "1",
+                    "comment": "‘1’ means weekday; ‘0’ means weekend"
+                },
+                {
+                    "param_id": 4,
+                    "display": true,
+                    "name": "pDota",
+                    "formula": "40%",
+                    "comment": ""
+                },
+                {
+                    "param_id": 5,
+                    "display": true,
+                    "name": "pDrink",
+                    "formula": "1-pDota",
+                    "comment": ""
+                },
+                {
+                    "param_id": 6,
+                    "display": true,
+                    "name": "cTaxi",
+                    "formula": "100",
+                    "comment": "[Unknown]"
+                },
+                "[Unknown]",
+                "[Unknown]",
+                "[Unknown]",
+                "[Unknown]",
+                "[Unknown]",
+                "[Unknown]",
+                "[Unknown]",
+                "[Unknown]",
+                "[Unknown]",
+                "[Unknown]",
+                "[Unknown]",
+                "[Unknown]",
+                "[Unknown]",
+                "[Unknown]",
+                "[Unknown]",
+                "[Unknown]",
+                "[Unknown]"
+            ],
+            "tracker_array": "[Unknown]",
+            "payoff_array": "[Unknown]",
+            "children": "[Unknown]",
+            "_children": "[Unknown]",
+            "depth": "[Unknown]",
+            "x": "[Unknown]",
+            "y": "[Unknown]",
+            "info_content": "[Unknown]",
+            "info_height": "[Unknown]",
+            "tip_content": "[Unknown]",
+            "tip_height": "[Unknown]",
+            "boxArea_height": "[Unknown]",
+            "status": "[Unknown]",
+            "x0": "[Unknown]",
+            "y0": "[Unknown]"
+        },
+        "x": "[Unknown]",
+        "y": "[Unknown]",
+        "info_content": "[Unknown]",
+        "info_height": "[Unknown]",
+        "tip_content": "[Unknown]",
+        "tip_height": "[Unknown]",
+        "boxArea_height": "[Unknown]",
+        "status": "[Unknown]",
+        "x0": "[Unknown]",
+        "y0": "[Unknown]"
+    },
+    "[Unknown]",
+    "[Unknown]",
+    "[Unknown]",
+    "[Unknown]",
+    "[Unknown]",
+    "[Unknown]",
+    "[Unknown]",
+    "[Unknown]",
+    "[Unknown]",
+    "[Unknown]",
+    "[Unknown]",
+    "[Unknown]"
+]

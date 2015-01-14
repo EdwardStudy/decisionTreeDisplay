@@ -1,0 +1,310 @@
+<div class="app-layout" app-layout ng-controller="createDTreeCtrl">
+    <!-- canvas-option-->
+    <div id="canvas-option" class="btn btn-group-vertical round" ng-class="canvasUiStyle">
+        <a role="button" class="btn btn-default" id="co-find-root"
+           tooltip="reset" tooltip-placement="left" tooltip-popup-delay="1000"><i
+                class="glyphicon glyphicon-map-marker"></i></a>
+        <a class="btn btn-default" role="button" id="co-zoom-in"
+           tooltip="zoom in" tooltip-placement="left" tooltip-popup-delay="1000"><i class="fa fa-plus"></i>
+        </a>
+        <a role="button" class="btn btn-default" id="co-zoom-out"
+           tooltip="zoom out" tooltip-placement="left" tooltip-popup-delay="1000"><i class="fa fa-minus"></i>
+        </a>
+        <a role="button" class="btn btn-default" id="co-undo"
+           tooltip="undo" tooltip-placement="left" tooltip-popup-delay="1000"><i class="fa fa-undo"></i>
+        </a>
+        <a role="button" class="btn btn-default" id="co-redo"
+           tooltip="redo" tooltip-placement="left" tooltip-popup-delay="1000"><i class="fa fa-repeat"></i>
+        </a>
+        <a role="button" class="btn btn-default" id="co-collapse"
+           tooltip="collapse all nodes" tooltip-placement="left" tooltip-popup-delay="1000"><i
+                class="fa fa-compress"></i>
+        </a>
+
+        <button type="button" class="btn btn-default"
+                popover-placement="left"
+                popover-title="style select"
+                popover-trigger="focus"
+                popover='<div class="subsection bordered image grid">
+                                <ul >
+                                    <li><a href="" canvas-ui-switch="blue-print"><span><img src="styles/img/blueprint.png" title="blue-print"></span></a></li>
+                                    <li><a href="" canvas-ui-switch="white-print"><span><img src="styles/img/fresh.png" title="white-print"></span></a></li>
+                                </ul>
+                            </div>'
+                ><i class="fa fa-gear"></i></button>
+    </div>
+    <!-- ui-layout-center -->
+    <div class="ui-layout-center ui-layout-canvas">
+        <!--canvas of Dtree -->
+        <div id="canvas" ng-class="canvasUiStyle">
+            <!-- Dtree -->
+            <dtree data="treeStructure" option="treeConfig"></dtree>
+        </div>
+        <!-- end of canvas -->
+
+        <!-- context-menu, the menu for common node of Dtree -->
+        <div id="context-menu">
+            <ul class="dropdown-menu" role="menu">
+                <li class="dropdown-submenu">
+                    <a tabindex="-1" href="javascript:void(0);" id="insert-node" class="context-menu-item"
+                       title="(enter)"><span class="glyphicon glyphicon-pushpin"></span>&nbsp;&nbsp;insert node</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a tabindex="-1" href="javascript:void(0);" class="context-menu-item"
+                               id="insert-change-node">Change</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="context-menu-item"
+                               id="insert-terminal-node">Terminal</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="context-menu-item"
+                               id="insert-decision-node">Decision</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown-submenu">
+                    <a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="change-node"
+                       title="(blank)"><span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;change node</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a tabindex="-1" href="javascript:void(0);" class="context-menu-item"
+                               id="change-to-change-node">Change</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="context-menu-item"
+                               id="change-to-decision-node">Decision</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="context-menu-item"
+                               id="change-to-terminal-node">Terminal</a>
+                        </li>
+                    </ul>
+                </li>
+                <!--<li class="disabled"><a tabindex="-1" href="javascript:void(0);" class="context-menu-item"-->
+                <!--id="clone-node" title="(C)"><i class="fa fa-cubes"></i>&nbsp;&nbsp;clone </a>-->
+                <!--</li>-->
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item"
+                       id="select-subtree" title="(S)"><i class="fa fa-tree"></i>&nbsp;&nbsp;select subtree </a>
+                </li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item"
+                       id="add-tip" title="(T)"><i class="fa fa-file-text"></i>&nbsp;&nbsp;add tip </a>
+                </li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item"
+                       id="remove-tip" title="(T)"><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;remove tip </a>
+                </li>
+                <li class="divider"></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="evaluation-node"
+                       title="(E)"><i class="fa fa-building-o"></i>&nbsp;&nbsp;evaluation </a></li>
+                <li class="divider"></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="cut-node"
+                       title="(ctrl+x)"><i class="fa fa-scissors"></i>&nbsp;&nbsp;cut</a></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="copy-node"
+                       title="(ctrl+c)"><i class="fa fa-files-o"></i>&nbsp;&nbsp;copy </a></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="paste-node"
+                       title="(ctrl+v)"><i class="fa fa-clipboard"></i>&nbsp;&nbsp;paste </a></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="delete-node"
+                       title="(delete)"><i class="fa fa-times"></i>&nbsp;&nbsp;delete </a></li>
+            </ul>
+        </div>
+        <!-- end of context-menu -->
+
+
+        <!-- end-area-menu, another menu for terminal node-box -->
+        <div id="end-area-menu">
+            <ul class="dropdown-menu" role="menu">
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="align-payoff"
+                       title="(E)"><i class="fa fa-align-right"></i>&nbsp;&nbsp;align</a></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="not-align-payoff"
+                       title="(E)"><i class="fa fa-align-center"></i>&nbsp;&nbsp;not align</a></li>
+                <li class="divider"></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="edit-payoff"
+                       title="(E)"><i class="fa fa-edit"></i>&nbsp;&nbsp;edit payoff</a></li>
+                <li class="divider"></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="uncheck-this-path"
+                       title="(E)"><i class="fa fa-ban"></i>&nbsp;&nbsp;uncheck path</a></li>
+                <li><a tabindex="-1" href="javascript:void(0);" class="context-menu-item" id="check-this-path"
+                       title="(E)"><i class="fa fa-code-fork fa-rotate-90"></i>&nbsp;&nbsp;&nbsp;check path</a></li>
+
+            </ul>
+        </div>
+        <!-- end of end-area-menu -->
+    </div>
+    <!-- end of ui-layout-center -->
+
+    <!-- ui-layout-south -->
+    <div class="ui-layout-south">
+        <div class="ui-tab-container">
+            <tabset class="ui-tab">
+                <tab heading="Node Definitions">
+                    <div class="row button-bar">
+                        <div class="col-md-8">
+                            <div class="widget-container">
+                                <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-primary"
+                                   data-ng-disabled="selectedNodeParamData.length == 0" ng-click="openEditParameterDialog()"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-success"
+                                   data-ng-disabled="!selectedNodeData" ng-click="openAddParameterDialog()"><i class="fa fa-plus"></i></a>
+                                <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-danger"
+                                   data-ng-disabled="selectedNodeParamData.length == 0" ng-click="openDeleteParameterDialog()"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <input type="text" class="form-control" ng-model="NodeGridOption.searchFilter">
+                            <span class="icon glyphicon glyphicon-search"></span>
+                        </div>
+                    </div>
+                    <div angrid="NodeGridOption" class="with-button-bar"></div>
+                </tab>
+                <tab heading="Tree Properties">
+                    <tabset class="ui-tab tabs-left">
+                        <tab heading="variables">
+                            <div class="row button-bar">
+                                <div class="col-md-8">
+                                    <div class="widget-container">
+                                        <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-primary"
+                                           data-ng-disabled="selectedNodeParamData.length == 0" ng-click="openEditParameterDialog()"><i class="fa fa-edit"></i></a>
+                                        <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-success"
+                                           data-ng-disabled="!selectedNodeData" ng-click="openAddParameterDialog()"><i class="fa fa-plus"></i></a>
+                                        <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-danger"
+                                           data-ng-disabled="selectedNodeParamData.length == 0" ng-click="openDeleteParameterDialog()"><i class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <input type="text" class="form-control" ng-model="variablesGridOption.searchFilter">
+                                    <span class="icon glyphicon glyphicon-search"></span>
+                                </div>
+                            </div>
+                            <div angrid="variablesGridOption" class="with-button-bar"></div>
+                        </tab>
+                        <tab heading="tables">
+                        </tab>
+                        <tab heading="distribution">
+                        </tab>
+                        <tab heading="general">
+                            <div angrid="generalGridOption"></div>
+                        </tab>
+                    </tabset>
+                </tab>
+                <tab heading="Markov Info">
+                    <p>this is test</p>
+                    <p>selectedNodeParamData: {{selectedNodeParamData}}</p>
+                </tab>
+                <tab heading="Tree style">
+                    <p>this is test</p>
+                    <p>treeParameter: {{treeParameter}}</p>
+                </tab>
+            </tabset>
+        </div>
+        <!-- end of ui-tab-container -->
+    </div>
+    <!-- end of ui-layout-south -->
+</div>
+
+<!--
+	This is the template for the main dialog that is displayed. It uses the
+dialogCtrl controller in app.js.
+-->
+<script type="text/ng-template" id="dialogTemplate.html">
+    <div ng-controller="dialogCtrl">
+    </div>
+</script>
+
+<!--
+delete parameter dialog
+-->
+<script type="text/ng-template" id="deleteParameterDialog.html">
+    <div>
+        <div class='widget-header'>
+            <h4><i class='fa fa-warning'></i>Do you really want to delete this parameter?</h4>
+            <p ng-repeat="m in model">{{m.name}} {{m.description}}</p>
+        </div>
+    </div>
+</script>
+<!--
+add parameter dialog
+-->
+<script type="text/ng-template" id="addParameterDialog.html">
+    <div>
+        <div class="panel panel-default">
+            <div class="panel-body" ng-controller="addParameterDialogCtrl">
+                <form name="form_addParameter" class="form-horizontal form-validation" data-ng-submit="submitForm()">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="paramName">Name</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text"
+                                   id="paramName"
+                                   class="form-control"
+                                   placeholder="required"
+                                   required
+                                   data-ng-model="model.name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="paramDescription">Description</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <textarea id="paramDescription"
+                                      class="form-control"
+                                      rows="2"
+                                      data-ng-model="model.description">
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="paramDefinition">Definition</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text"
+                                   id="paramDefinition"
+                                   class="form-control"
+                                   placeholder="required"
+                                   required
+                                   data-ng-model="model.formula">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="paramCategory">Category</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text"
+                                   id="paramCategory"
+                                   class="form-control"
+                                   required
+                                   placeholder="required"
+                                   data-ng-model="model.category">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="paramDisplay">Display</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <label class="switch switch-success">
+                                <input id="paramDisplay" type="checkbox" data-ng-model="model.display"><i></i>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="alert alert-info" data-ng-show="showInfoOnSubmit">
+                        maybe some info when submit error
+                    </div>
+                    <button type="submit"
+                            class="btn btn-info btn-lg"
+                            data-ng-disabled="!form_addParameter.$valid">Save
+                    </button>
+                    <button type="button"
+                            class="btn btn-default btn-lg"
+                            data-ng-click="cancelClick()">Cancel
+                    </button>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</script>

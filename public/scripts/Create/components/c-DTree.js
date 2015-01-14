@@ -13,8 +13,22 @@ define([
 		var module = function ($node) {
 			//declare custom event, these event will be used with the upper modules
 			//创建一些自定义事件，这些事件将于外层进行交互
-			var dispatch = d3.dispatch('nodeClick', 'evaluationDialog', 'infoboxDblclick');
-			var svg, divs;
+			var dispatch = d3.dispatch(
+				'dtreeNodeClick',               //节点选中事件
+				'dtreeNodeDelete',              //节点删除事件
+				'dtreeNodeRemoveActiveStyle',   //节点清除选中状态事件
+				'infoboxPClick',                //infobox单击事件
+				'infoboxPDblclick',             //infobox双击事件
+				'evaluationDialog',             //激活节点计算对话框
+				'dtreePayoffEdit'               //激活payoff编辑对话框
+			);
+			//预定义绘图对象，一个Dtree module只能有对一对该对象
+			var SVG, DIVS;
+			//全局变量，用以保存数据
+			var DATA, CONFIG;
+			//全局可视化对象
+			var ViSUALIZATION;
+
 
 			//defaultOption
 			//默认参数，构造函数
@@ -26,7 +40,7 @@ define([
 			var defaultOption = function () {
 				var root = this;
 				/*
-				 *  fluctuating properties
+				 * fluctuating properties
 				 * 直接与外层交互，经常变动的属性
 				 */
 				this.name = "dtree";
@@ -44,6 +58,7 @@ define([
 
 				//是否显示某些文字
 				this.show_title = true;
+				this.show_prob = true;
 				this.show_info = true;
 				this.show_tips = true;
 				this.show_endArea = true;
@@ -160,20 +175,11 @@ define([
 				 */
 				//终结节点文字显示区域
 				this.endArea = {
-					width:     150,
+					width:     200,
 					height:    this.shape.R * 2,
 					textStyle: this.textStyle
 				};
-				//标题显示区域
-				this.titleBox = {
-					min_width:      150,
-					min_height:     24,
-					padding_bottom: 6,
-					height:         function () {
-						return root.titleBox.min_height + root.titleBox.padding_bottom;
-					},
-					textStyle:      this.textStyle
-				};
+				//小贴士显示区域
 				this.tipBox = {
 					min_width:      150,
 					min_height:     40,
@@ -181,8 +187,7 @@ define([
 					padding_bottom: 0,
 					textStyle:      this.textStyle,
 					gettips:        function (d) {
-						if (d.tip && d.showtip) {
-							console.log(d);
+						if (d.tip && d.show_tip) {
 							h = root.tipBox.min_height + root.tipBox.padding_bottom + root.tipBox.padding_top;
 							str = d.tip;
 						} else {
@@ -196,50 +201,65 @@ define([
 						return result;
 					}
 				};
-				//信息显示区域
+				//标题显示区域
+				this.titleBox = {
+					min_width:      150,
+					min_height:     22,
+					padding_bottom: 6,
+					height:         function () {
+						return root.titleBox.min_height + root.titleBox.padding_bottom;
+					},
+					textStyle:      this.textStyle
+				};
+				//概率显示区域
+				this.probBox = {
+					min_width:      150,
+					min_height:     22,
+					padding_bottom: 6,
+					height:         function (d) {
+						return d.prob == "" ? root.probBox.padding_bottom : root.probBox.padding_bottom + root.probBox.min_height;
+					},
+					textStyle:      this.textStyle
+				};
+				//变量及其他参数显示区域
 				this.infoBox = {
 					min_width:      150,
-					min_height:     20,
-					lineHeight:     20,
+					min_height:     22,
+					lineHeight:     22,
 					padding_bottom: 10,
 					bottom:         6,
 					textStyle:      this.textStyle,
 					getinfos:       function (d) {
 						var str = "";
+						var p = "";
 						var line_number = 0;
-						var traverse = function (obj, name) {
-							if (obj) {
-								for (var i in obj) {
+						var traverse = function (obj_array, index) {
+							if (obj_array.length > 0) {
+								//重新排序
+								if (index) {
+									obj_array = _.sortBy(obj_array, function (item) {
+										return item[index];
+									});
+								}
+								//编排文字
+								for (var i in obj_array) {
+									if (obj_array[i].display) {
+										p = obj_array[i].name + " = " + obj_array[i].formula;
+										str += "<p class='info-box-p' param_id='" + obj_array[i].param_id + "'>" + p + "</p>";
+									} else {
+										str += "<p class='info-box-p' param_id='" + obj_array[i].param_id + "'></p>";
+									}
 									line_number++;
-									var p = i + "=" + obj[i];
-									str += "<p class='info-box-p'>" + p + "</p>";
 								}
 							}
 						};
 						if (root.show_default_info) {
-							if (d.prob) {
-								str += "<p id='" + d.id + "_prob' class='info-box-p'>" + d.prob + "</p>";
-								line_number++;
-							}
-							traverse(d.variable, "variable");
-							traverse(d.tracker, "tracker");
-							traverse(d.payoff, "payoff");
-						}
-						if (root.show_compiled_info) {
-							traverse(d.compiled_prob, "compiled_prob");
-							traverse(d.compiled_variable, "compiled_variable");
-							traverse(d.compiled_tracker, "compiled_tracker");
-							traverse(d.compiled_payoff, "compiled_payoff");
-						}
-						if (root.show_parsed_info) {
-							traverse(d.parsed_prob, "parsed_prob");
-							traverse(d.parsed_variable, "parsed_variable");
-							traverse(d.parsed_tracker, "parsed_tracker");
-							traverse(d.parsed_payoff, "parsed_payoff");
+							traverse(d.redefined_param_array);
 						}
 
 						var h = line_number * root.infoBox.lineHeight;
-						h = h > 0 ? h : root.infoBox.min_height;
+						if (d.type != "terminal")
+							h = h > 0 ? h : root.infoBox.min_height;
 						h += root.infoBox.padding_bottom;
 
 						var result = {
@@ -260,14 +280,14 @@ define([
 					path_height: 2,
 					width:       function (d) { //计算盒模型宽度，由于树是x轴向分级，所以对于树的每个层级而言宽度是一致的
 						if (!root.layer_width[d.depth]) {
-							console.log(d.depth, "NO layout_width!");
+							console.log(d.depth, "NO layout_width! I will use default min_width");
 							root.layer_width[d.depth] = root.boxArea.min_width;
 						}
 						return root.layer_width[d.depth];
 					},
 					height:      function (d) {//计算盒模型的高度
-						var h = root.titleBox.height() + d.info_height + root.boxArea.path_height;
-						h = d.showtip && d.showtip == true ? h + d.tip_height : h;
+						var h = root.titleBox.height() + root.probBox.height(d) + d.info_height + root.boxArea.path_height;
+						h = d.show_tip && d.show_tip == true ? h + d.tip_height : h;
 						h = h > root.boxArea.min_height ? h : root.boxArea.min_height;
 						return h;
 					}
@@ -306,7 +326,7 @@ define([
 			 * @param {Object} user preferences.
 			 */
 			var setData = function (_data, _option) {
-				console.log(_data);
+				console.log("dtree.js:setData:_data=", _data);
 				if (!_data || _data === undefined) {
 					console.log("dtree is no data!");
 					return;
@@ -315,14 +335,41 @@ define([
 					console.log("dtree is no set option!");
 					_option = {};
 				}
-				var data = _data;
-				var config = new defaultOption();
-				config = angular.extend(config, _option);
+				DATA = _data;
+				CONFIG = new defaultOption();
+				CONFIG = angular.extend(CONFIG, _option);
 
-				visualize(data, config);
+				ViSUALIZATION = visualize(DATA, CONFIG);
+				ViSUALIZATION.update(DATA);
 			};
-
-			function visualize(root, config) {
+			/*
+			 * @name: updateDTree
+			 * @description: Data interface function, visualization will be changed when data or option has changed
+			 * 			     按照当前数据重新绘图
+			 */
+			var updateDTree = function () {
+				if (ViSUALIZATION) {
+					console.log("dtree --> updateDTree");
+					ViSUALIZATION.update(DATA);
+				}
+			}
+			/*
+			 * @name: render Canvas
+			 * @description: Data interface function, visualization will be changed when data or option has changed
+			 * 			     按照当前数据重新绘图
+			 */
+			var resetDTree = function () {
+				ViSUALIZATION = visualize(DATA, CONFIG);
+				ViSUALIZATION.update(DATA);
+			}
+			/*
+			 * @name: setData
+			 * @description: visualize
+			 * 			     绘图函数
+			 * @param {Object} data model of decision tree.
+			 * @param {Object} user preferences.
+			 */
+			var visualize = function (root, config) {
 				/*
 				 * 全局事件和全局变量
 				 */
@@ -378,6 +425,9 @@ define([
 					}
 					rootFirstSearach(root);
 					update(root);
+					$($node).find(".info-box-p").removeClass("selected");
+					;
+					dispatch.dtreeNodeRemoveActiveStyle("dtreeNodeRemoveActiveStyle");
 				}
 
 				/*
@@ -432,6 +482,35 @@ define([
 				}
 
 				/*
+				 * @name: changeNodeProb
+				 * @todo: 使用了jquery
+				 * @description:
+				 * 			     左键单击titlebox，显示输入框，可以更改titlebox文字，结果会反馈到d.name上
+				 * @param: {object}: d3 tree node
+				 * @param: {dom}: the dom of probbox
+				 */
+				function changeNodeProb(d, probbox) {
+					var finish = function () {
+						d.prob = $input.val();
+						var p = "<p class='title-box-p'>" + d.prob + "</p>";
+						$(probbox).children().replaceWith(p);
+					};
+					var $input;
+					if (d.prob) {
+						$input = $('<input type="text" class="title-box-input" value="' + d.prob + '">');
+					} else {
+						$input = $('<input type="text" class="title-box-input">');
+					}
+					$(probbox).children(".title-box-p").replaceWith($input);
+					$input.focus().blur(finish);
+					$input.keydown(function (event) {
+						if (event.keyCode === 13) {
+							finish();
+						}
+					});
+				}
+
+				/*
 				 * @name: changeNodeTip
 				 * @todo: 使用了jquery
 				 * @description:
@@ -468,7 +547,7 @@ define([
 				 */
 				function addTip(d) {
 					d.tip = "click here to change tip";
-					d.showtip = true;
+					d.show_tip = true;
 					update(d);
 				}
 
@@ -480,7 +559,7 @@ define([
 				 */
 				function removeTip(d) {
 					d.tip = null;
-					d.showtip = false;
+					d.show_tip = false;
 					update(d);
 				}
 
@@ -492,8 +571,8 @@ define([
 				 * @param: {dom}: the dom of infobox-p
 				 */
 				function highlightInfoBox(p) {
-					//d3.select(this).classed("selected", true);
-					$(p).toggleClass("selected");
+					d3.select(p).classed("selected", true);
+					//$(p).toggleClass("selected");
 				}
 
 				/*
@@ -511,29 +590,24 @@ define([
 					for (var i = 0; i < number; i++) {
 						var newnode = {
 							//basic info
-							"id":                ++config._maxId,
-							"name":              null,
-							"type":              type,
-							"prob":              null,
-							"markov_info":       null,
-							//parameter list
-							"variable":          null,
-							"tracker":           null,
-							"payoff":            null,
-							//compiled parameter values
-							"compiled_prob":     null,
-							"compiled_variable": null,
-							"compiled_tracker":  null,
-							"compiled_payoff":   null,
-							//parsed parameter values
-							"parsed_prob":       null,
-							"parsed_variable":   null,
-							"parsed_tracker":    null,
-							"parsed_payoff":     null,
+							"node_id":               ++config._maxId,
+							"name":                  null,
+							"type":                  type,
+							"parent_id":             null,
+							"node_path_array":       [],
+							"tip":                   "",
+							"markov_info":           [],
+							"show_child":            true,
+							"show_tip":              true,
+							"prob":                  "",
+							"redefined_param_array": [],
+							"tracker_array":         [],
+							"payoff_array":          [],
 							//children
-							"children":          [],
-							"_children":         []
+							"children":              [],
+							"_children":             []
 						};
+						console.log(d);
 						if (d.children) {
 							d.children.push(newnode);
 						} else {
@@ -676,10 +750,10 @@ define([
 				 * @param: {object}: d3 tree node
 				 */
 				function toggleTips(d) {
-					if (d.showtip && d.showtip == true) {
-						d.showtip = false;
+					if (d.show_tip && d.show_tip == true) {
+						d.show_tip = false;
 					} else {
-						d.showtip = true;
+						d.show_tip = true;
 					}
 					update(d);
 				}
@@ -702,7 +776,7 @@ define([
 						}
 
 						d.type = newtype;
-						var str = "#nodeshape-" + d.id;
+						var str = "#nodeshape-" + d.node_id;
 						d3.select(str).classed({
 							'circle':   d.type == "change" ? true : false,
 							'square':   d.type == "decision" ? true : false,
@@ -807,6 +881,8 @@ define([
 							}
 						}
 						update(root);
+						//发送一个自定义事件给外部
+						dispatch.dtreeNodeDelete(CONTEXTMENU_CACHE);
 					}
 					return;
 				}
@@ -865,18 +941,18 @@ define([
 
 				/*
 				 * @name: initNodeData
-				 * @description: init the parameters of node, mainly add node.id and compute maximum id
+				 * @description: init the parameters of node, mainly add node_id and compute maximum id
 				 * 			     初始化节点参数，主要是增加id和计算最大ID
 				 * @param: {node}: dtree node
 				 */
 				function initNodeData(d) {
 					//初始化ID，同时config._maxId记录当前ID最大
-					if (d.id) {
-						if (config._maxId < d.id)
-							config._maxId = d.id;
+					if (d.node_id) {
+						if (config._maxId < d.node_id)
+							config._maxId = d.node_id;
 					} else {
 						console.log("there is no id!");
-						d.id = config._maxId;
+						d.node_id = config._maxId;
 						config._maxId++;
 					}
 
@@ -930,7 +1006,7 @@ define([
 
 
 				function editPayoff(d) {
-					console.log("editPayoff");
+					dispatch.dtreePayoffEdit(d);
 				}
 
 				/*
@@ -1165,7 +1241,7 @@ define([
 									"_children":         []
 								};
 								CONTEXTMENU_CACHE.children.push(newnode);
-								console.log(CUT_CACHE.id, config._maxId);
+								console.log(CUT_CACHE.node_id, config._maxId);
 								update(CONTEXTMENU_CACHE);
 							}
 							return;
@@ -1216,12 +1292,14 @@ define([
 					.size([config.svg.height, config.svg.width]);
 
 				// ************** 预定义绘图区域	 *****************
-				if (svg) {
-					svg.remove();
-					divs.remove();
+				if (SVG || DIVS) {
+					SVG.remove();
+					DIVS.remove();
 				}
+
+
 				//divs是浮动文字层，负责显示文字信息
-				divs = d3.select($node).append("div")
+				DIVS = d3.select($node).append("div")
 					.attr("width", config.svg.width)
 					.attr("height", config.svg.height)
 					.attr("class", "divs")
@@ -1235,14 +1313,14 @@ define([
 						"left":              config.treeArea.left + "px"
 					})
 				;
-				//svg是图形层，负责绘制连接线和各种图形
-				svg = d3.select($node).append("svg:svg")
+				//SVG是图形层，负责绘制连接线和各种图形
+				SVG = d3.select($node).append("svg:svg")
 					.attr("class", "dtree-svg")
 					.attr("width", config.svg.width)
 					.attr("height", config.svg.height)
 				;
-				//svg -> svg-container, zoom作用区域
-				var svg_container = svg.append("g")
+				//SVG -> svg-container, zoom作用区域
+				var svg_container = SVG.append("g")
 						.attr("class", "svg-container")
 					;
 				//svg-container -> axisArea, 数轴显示区域
@@ -1268,7 +1346,7 @@ define([
 					});
 
 				//svg -> 渐变填充
-				var gradient_slider = svg
+				var gradient_slider = SVG
 					.append("linearGradient")
 					.attr("y1", 0)
 					.attr("y2", 0)
@@ -1285,7 +1363,7 @@ define([
 					.attr("offset", "0.7")
 					.attr("stop-color", "#9A9B9B");
 
-				var gradient_shape = svg
+				var gradient_shape = SVG
 					.append("linearGradient")
 					.attr("y1", 0)
 					.attr("y2", 0)
@@ -1304,7 +1382,7 @@ define([
 				// ************** end of  预定义绘图区域	 *****************
 
 				//全局效果绑定
-				svg.on("click", function () {
+				SVG.on("click", function () {
 					d3.event.preventDefault();
 					if (d3.event.target.className == "shape-box") {
 						return;
@@ -1313,14 +1391,14 @@ define([
 				})
 				//绑定缩放
 				if (config.interface_zoom) {
-					svg.call(zoom);
-//					svg.on("mousedown.zoom", null);
-//					svg.on("mousemove.zoom", null);
-					svg.on("dblclick.zoom", null);
-					svg.on("touchstart.zoom", null);
-					svg.on("wheel.zoom", null);
-					svg.on("mousewheel.zoom", null);
-					svg.on("MozMousePixelScroll.zoom", null);
+					SVG.call(zoom);
+//					SVG.on("mousedown.zoom", null);
+//					SVG.on("mousemove.zoom", null);
+					SVG.on("dblclick.zoom", null);
+					SVG.on("touchstart.zoom", null);
+					SVG.on("wheel.zoom", null);
+					SVG.on("mousewheel.zoom", null);
+					SVG.on("MozMousePixelScroll.zoom", null);
 				}
 
 				//************** 数据更新函数 ******************
@@ -1336,7 +1414,7 @@ define([
 					// Update the nodes…
 					var node = d3.select($node).select(".treeArea").selectAll("g.node") //node来画svg图形
 						.data(nodes, function (d) {
-							return d.id;
+							return d.node_id;
 						});
 
 					//Enter Node;
@@ -1353,7 +1431,7 @@ define([
 							.attr({
 								"class": "link",
 								"id":    function (d) {
-									return "link-" + d.id;
+									return "link-" + d.node_id;
 								},
 								"x1":    0,
 								"y1":    0,
@@ -1396,7 +1474,7 @@ define([
 									}
 								})
 								.attr("id", function (d) {
-									return "nodeshape-" + d.id;
+									return "nodeshape-" + d.node_id;
 								})
 								.attr("transform", function (d) {
 									return "rotate(180)";
@@ -1503,9 +1581,13 @@ define([
 							.remove();
 					}
 
+
+					//////////nodeDiv/////////////
+
+
 					var nodeDiv = d3.select($node).select(".divs").selectAll("div.div-box-area")//nodeDiv来画覆盖在SVG上面的用html写成的描述区域
 						.data(nodes, function (d) {
-							return d.id;
+							return d.node_id;
 						});
 					//enter nodeDiv
 					if (nodeDiv) { //enter
@@ -1513,7 +1595,7 @@ define([
 							.append("div")
 							.attr("class", "div-box-area")
 							.attr("id", function (d) {
-								return "div-box-area-" + d.id;
+								return "div-box-area-" + d.node_id;
 							})
 							.on("mouseenter", function (d) {
 								if (d.children && d.children.length > 0 || d._children && d._children.length > 0)
@@ -1536,7 +1618,7 @@ define([
 								.style({
 									"right":  "0px",
 									"bottom": function (d) {
-										return d.info_height - config.shape.R + "px";
+										return d.info_height + config.probBox.height(d) - config.shape.R + "px";
 									},
 									"height": config.shape.R * 2 + "px",
 									"width":  config.shape.R * 2 + "px"
@@ -1547,14 +1629,13 @@ define([
 									d3.event.preventDefault();
 									initNodeContextmenu(d);
 								})
-								.on('click.dispatch', dispatch.nodeClick)
 								.on('click.active', function (d) {
 									d3.event.preventDefault();
 									removeAllNodesActiveStyle();
 									addNodeActiveStyle(d);
+									dispatch.dtreeNodeClick(d);
 								})
 								.on("dblclick", function (d) {
-									console.log(d);
 									quickInsertNode(d);
 								})
 							;
@@ -1567,7 +1648,7 @@ define([
 								.style({
 									"right":  config.shape.R * 0.6 + "px",
 									"bottom": function (d) {
-										return d.info_height - config.shape.R - 16 + "px";
+										return d.info_height + config.probBox.height(d) - config.shape.R - 16 + "px";
 									}
 								})
 								.html(function (d) {
@@ -1582,7 +1663,7 @@ define([
 									.style({
 										"right":   config.shape.R * 0.6 + "px",
 										"bottom":  function (d) {
-											return d.info_height + config.shape.R + 5 + "px";
+											return d.info_height + config.probBox.height(d) + config.shape.R + 5 + "px";
 										},
 										"display": function (d) {
 											return d.tip && d.tip != "" ? "block" : "none";
@@ -1603,10 +1684,7 @@ define([
 										"baseline":    config.tipBox.textStyle.baseline,
 										"font-size":   config.tipBox.textStyle.font_size,
 										"font-weight": config.tipBox.textStyle.font_weight,
-										"font-family": config.tipBox.textStyle.font_family,
-										"display":     function (d) {
-											return d.showtip == true ? "block" : "none";
-										}
+										"font-family": config.tipBox.textStyle.font_family
 									})
 									.on("click", function (d) {
 										changeNodeTip(d, this);
@@ -1619,9 +1697,9 @@ define([
 									.style({
 										"left":        "0px",
 										"bottom":      function (d) {
-											return d.info_height + config.titleBox.padding_bottom + "px";
+											return  d.info_height + config.probBox.height(d) + "px";
 										},
-										"height":      config.titleBox.min_height,
+										"height":      config.titleBox.min_height + "px",
 										"color":       config.titleBox.textStyle.text_color,
 										"text-align":  config.titleBox.textStyle.text_align,
 										"baseline":    config.titleBox.textStyle.baseline,
@@ -1632,6 +1710,32 @@ define([
 									})
 									.on("click", function (d) {
 										changeNodeTitle(d, this);
+									})
+								;
+						}
+						if (config.show_prob) {
+							var probBox = boxArea.append("div")//title文字区域
+									.attr("class", function (d) {
+										return d.prob == "" ? "prob-box null" : "prob-box";
+									})
+									.style({
+										"left":        "0px",
+										"bottom":      function (d) {
+											return  d.info_height + "px";
+										},
+										"height":      function (d) {
+											return config.probBox.height(d) - config.probBox.padding_bottom + "px";
+										},
+										"color":       config.probBox.textStyle.text_color,
+										"text-align":  config.probBox.textStyle.text_align,
+										"baseline":    config.probBox.textStyle.baseline,
+										"font-size":   config.probBox.textStyle.font_size,
+										"font-weight": config.probBox.textStyle.font_weight,
+										"font-family": config.probBox.textStyle.font_family,
+										"opacity":     config.probBox.textStyle.fill_opacity
+									})
+									.on("click", function (d) {
+										changeNodeProb(d, this);
 									})
 								;
 						}
@@ -1657,7 +1761,7 @@ define([
 									"opacity":     config.infoBox.textStyle.fill_opacity,
 									"font-family": config.infoBox.textStyle.font_family
 								})
-								.on("dblclick", dispatch.infoboxDblclick)
+								.on("click.dispatch", dispatch.dtreeNodeClick);
 							;
 						}
 						if (config.show_endArea) { //endArea区域
@@ -1668,13 +1772,13 @@ define([
 								.append("div")
 								.attr("class", "end-area")
 								.attr("id", function (d) {
-									return "end-area-" + d.id;
+									return "end-area-" + d.node_id;
 								})
 								.attr("data-toggle", "context")
 								.attr("data-target", "#end-area-menu")
 								.style({
 									"bottom": function (d) {
-										return d.info_height - config.shape.R + "px";
+										return d.info_height + config.probBox.height(d) - config.shape.R + "px";
 									},
 									"right":  function (d) {
 										return config.align_endArea == true ?
@@ -1685,7 +1789,7 @@ define([
 									"width":  config.endArea.width + "px",
 									"height": config.endArea.height + "px"
 								})
-								.on("click", editPayoff)
+								.on("dblclick", editPayoff)
 								.on('contextmenu', function (d, i) {
 									initEndareaContextmenu(d);
 								});
@@ -1722,8 +1826,20 @@ define([
 						nodeDiv.select(".title-box")
 							.html(function (d) {
 								if (d.name)
-									return "<p class='title-box-p'>" + d.name + "</p>";
+									return "<p class='title-box-p'>" + d.node_id + ":" + d.name + "</p>";
 								return "<p class='title-box-p'>...</p>";
+							});
+						nodeDivUpdate.select(".prob-box")
+							.style({
+								"width": function (d) {
+									return  config.boxArea.width(d) - config.shape.R * 2.5 + "px";
+								}
+							});
+						nodeDiv.select(".prob-box")
+							.html(function (d) {
+								if (d.prob)
+									return "<p class='title-box-p'>" + d.prob + "</p>";
+								return "";
 							});
 						nodeDivUpdate.select(".info-box")
 							.style({
@@ -1741,8 +1857,16 @@ define([
 							.selectAll(".info-box-p")
 							.on("click.highlightP", function () {
 								highlightInfoBox(this);
+								dispatch.infoboxPClick(this);
 							})
+							.on("dblclick.dispatch", function () {
+								dispatch.infoboxPDblclick(this);
+							})
+
 						;
+//						dispatch.on("infoboxPDblclick", function(d){
+//							console.log(d);
+//						})
 						if (config.show_endArea) { //endArea区域
 							nodeDivUpdate.select(".end-area")
 								.style({
@@ -1775,7 +1899,7 @@ define([
 									return "<p class='tip-box-p'>...</p>";
 								})
 								.filter(function (d) {
-									return d.showtip == true;
+									return d.show_tip == true;
 								})
 								.transition()
 								.duration(config.anime.duration)
@@ -1786,12 +1910,16 @@ define([
 									"width":   function (d) {
 										return  config.boxArea.width(d) - config.shape.R * 2.5 + "px";
 									},
-									"display": "block"
+									"display": function (d) {
+										if (d.tip == "")
+											return "none";
+										return d.show_tip == true ? "block" : "none";
+									}
 								})
 							;
 							nodeDiv.select(".tip-box")
 								.filter(function (d) {
-									return d.showtip == false;
+									return d.show_tip == false;
 								})
 								.transition()
 								.duration(config.anime.duration)
@@ -1807,7 +1935,7 @@ define([
 									}
 								})
 								.html(function (d) {
-									return d.showtip && d.showtip == true ?
+									return d.show_tip && d.show_tip == true ?
 										'<i class="fa fa-file-text-o"></i>'
 										:
 										'<i class="fa fa-file-text"></i>'
@@ -1849,13 +1977,13 @@ define([
 					//update the links...
 					var link = d3.select($node).select(".treeArea").selectAll("path.link")
 						.data(links, function (d) {
-							return d.target.id;
+							return d.target.node_id;
 						});
 					//link enter;
 					link.enter().insert("path", "g")
 						.attr("class", "link")
 						.attr("id", function (d) {
-							return "link-" + d.target.id;
+							return "link-" + d.target.node_id;
 						})
 						.attr("d", function () {
 							if (source.x0 && source.y0)
@@ -1907,14 +2035,19 @@ define([
 					});
 
 				};// end of update
-				update(root);
+				//update(root);
 
-
+				var exports = {
+					update: update
+				}
+				return exports;
 			}
 
 			var exports = {
-				setData:   setData,
-				visualize: visualize
+				setData:     setData,
+				resetDTree:  resetDTree,
+				visualize:   visualize,
+				updateDTree: updateDTree
 			};
 
 			// rebind event handlers

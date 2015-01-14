@@ -9,6 +9,7 @@ var passport = require('passport');
 var auth = require('../config/middlewares/authorization');
 var authCtrl = require('./controllers/auth');
 var userCtrl = require('./controllers/user');
+var dtreeCtrl = require('./controllers/dtree');
 
 module.exports = function (app) {
 
@@ -25,8 +26,14 @@ module.exports = function (app) {
   app.get('/signedin', authCtrl.checkSignin);
 
   // routes for facebook authentication
-  app.get('/auth/facebook', authCtrl.facebookAuth);
-  app.get('/auth/facebook/callback', authCtrl.facebookCallback);
+  //app.get('/auth/facebook', authCtrl.facebookAuth);
+  //app.get('/auth/facebook/callback', authCtrl.facebookCallback);
+
+  //数据库存储相关
+  app.post('/dtree', dtreeCtrl.createDTree);//create
+  app.get('/dtree/:dtree_id', dtreeCtrl.readDTree);//read
+  app.put('/dtree/:dtree_id', dtreeCtrl.updateDTree);//update
+  app.delete('/dtree/:dtree_id', dtreeCtrl.deleteDTree); // delete
 
   // serve index.html for all other route
   app.all('/*', function (req, res) { res.render('index'); }); 

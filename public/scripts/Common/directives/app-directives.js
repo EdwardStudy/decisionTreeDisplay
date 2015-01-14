@@ -11,6 +11,7 @@
             };
         }
     ])
+	//背景变换，根据不同的连接更改北京
     .directive('customBackground', function() {
         return {
             restrict: "A",
@@ -21,19 +22,21 @@
                         return $location.path();
                     };
                     addBg = function(path) {
-                        $element.removeClass('body-home body-special body-tasks body-lock');
+                        $element.removeClass('body-home body-special body-tasks body-lock body-select');
                         switch (path) {
-                            case '/':
-                                return $element.addClass('body-home');
                             case '/404':
                             case '/500':
                             case '/signin':
                             case '/signup':
                                 return $element.addClass('body-special');
+							case '/select':
+								return $element.addClass('body-select');
                             case '/lock-screen':
                                 return $element.addClass('body-special body-lock');
                             case '/tasks':
                                 return $element.addClass('body-tasks');
+							default:
+								return $element.addClass('body-home');
                         }
                     };
                     addBg($location.path());

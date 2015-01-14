@@ -1,0 +1,294 @@
+{"node_id": 1, "parent_id": null, "node_path_array": [], "name": "what to do tonight", "tip": "", "type": "decision", "markov_info": [], "show_child": true, "show_tip": true, "prob": "", "redefined_param_array": [
+    {
+        "param_id": 1,
+        "display": true,
+        "name": "pDate_accepted",
+        "formula": "40%",
+        "comment": "很有可能"
+    },
+    {
+        "param_id": 2,
+        "display": true,
+        "name": "pHave_time",
+        "formula": "",
+        "comment": "很有可能"
+    },
+    {
+        "param_id": 3,
+        "display": true,
+        "name": "weekdays",
+        "formula": "1",
+        "comment": "‘1’ means weekday; ‘0’ means weekend"
+    },
+    {
+        "param_id": 4,
+        "display": true,
+        "name": "pDota",
+        "formula": "40%",
+        "comment": ""
+    },
+    {
+        "param_id": 5,
+        "display": true,
+        "name": "pDrink",
+        "formula": "1-pDota",
+        "comment": ""
+    },
+    {
+        "param_id": 6,
+        "display": true,
+        "name": "cTaxi",
+        "formula": "100",
+        "comment": ""
+    },
+    {
+        "param_id": 7,
+        "display": true,
+        "name": "cBag",
+        "formula": "discount(2000; 2; disc_rate)",
+        "comment": ""
+    },
+    {
+        "param_id": 8,
+        "display": false,
+        "name": "cMovie",
+        "formula": "80",
+        "comment": ""
+    },
+    {
+        "param_id": 9,
+        "display": true,
+        "name": "uMovie",
+        "formula": "9",
+        "comment": ""
+    },
+    {
+        "param_id": 10,
+        "display": true,
+        "name": "cKaraoke",
+        "formula": "300",
+        "comment": ""
+    },
+    {
+        "param_id": 11,
+        "display": true,
+        "name": "uKaraoke",
+        "formula": "10",
+        "comment": ""
+    },
+    {
+        "param_id": 12,
+        "display": true,
+        "name": "uBag_bought",
+        "formula": "Dis_uBag_bought*10",
+        "comment": "uncertain: follow a beta distribution"
+    },
+    {
+        "param_id": 13,
+        "display": true,
+        "name": "uBag_not_bought",
+        "formula": "10",
+        "comment": ""
+    },
+    {
+        "param_id": 14,
+        "display": true,
+        "name": "uDate_rejected",
+        "formula": "3",
+        "comment": ""
+    },
+    {
+        "param_id": 15,
+        "display": true,
+        "name": "uBuddy_no_time",
+        "formula": "4",
+        "comment": ""
+    },
+    {
+        "param_id": 16,
+        "display": true,
+        "name": "cNet_cafe",
+        "formula": "cPer_hour_rate*hours",
+        "comment": ""
+    },
+    {
+        "param_id": 17,
+        "display": true,
+        "name": "uDota",
+        "formula": "7",
+        "comment": ""
+    },
+    {
+        "param_id": 18,
+        "display": true,
+        "name": "cWine",
+        "formula": "cFood_and_drink[1,2]",
+        "comment": ""
+    },
+    {
+        "param_id": 19,
+        "display": true,
+        "name": "cFood",
+        "formula": "cFood_and_drink[1,1]",
+        "comment": ""
+    },
+    {
+        "param_id": 20,
+        "display": true,
+        "name": "uDrink",
+        "formula": "8",
+        "comment": ""
+    },
+    {
+        "param_id": 21,
+        "display": true,
+        "name": "hours",
+        "formula": "5",
+        "comment": ""
+    },
+    {
+        "param_id": 22,
+        "display": true,
+        "name": "cPer_hour_rate",
+        "formula": "6",
+        "comment": ""
+    },
+    {
+        "param_id": 22,
+        "display": true,
+        "name": "disc_rate",
+        "formula": "3%",
+        "comment": ""
+    }
+], "tracker_array": [], "payoff_array": [], "children": [
+    {
+        "node_id": 2,
+        "parent_id": 1,
+        "node_path_array": [1],
+        "name": "Date a girl",
+        "tip": "找女伴玩去",
+        "type": "change",
+        "markov_info": [],
+        "show_child": true,
+        "show_tip": true,
+        "prob": "",
+        "redefined_param_array": [],
+        "tracker_array": [],
+        "payoff_array": [],
+        "children": [
+            {
+                "node_id": 4,
+                "parent_id": 2,
+                "node_path_array": [1, 2],
+                "name": "Date accepted",
+                "tip": "",
+                "type": "change",
+                "markov_info": [],
+                "show_child": true,
+                "show_tip": true,
+                "prob": "pDate_accepted",
+                "redefined_param_array": [],
+                "tracker_array": [],
+                "payoff_array": [],
+                "children": [
+                    {
+                        "node_id": 8,
+                        "parent_id": 4,
+                        "node_path_array": [1, 2, 4],
+                        "name": "Shopping",
+                        "tip": "",
+                        "type": "change",
+                        "markov_info": null,
+                        "show_child": true,
+                        "show_tip": true,
+                        "prob": "20%",
+                        "redefined_param_array": [
+                            {
+                                "param_id": 6,
+                                "display": true,
+                                "name": "cTaxi",
+                                "formula": "200",
+                                "comment": "很有可能"
+                            }
+                        ],
+                        "tracker_array": [],
+                        "payoff_array": [],
+                        "children": [
+                            {
+                                "node_id": 13,
+                                "parent_id": 8,
+                                "node_path_array": [1, 2, 4, 8],
+                                "name": "Buy Designer bag",
+                                "tip": "奥拉奥拉奥拉奥拉",
+                                "type": "terminal",
+                                "markov_info": null,
+                                "show_child": true,
+                                "show_tip": true,
+                                "prob": "10%",
+                                "redefined_param_array": [],
+                                "tracker_array": [],
+                                "payoff_array": ["cTaxi+cBag", "uBag_bought"],
+                                "depth": 4,
+                                "parent": "[Unknown]",
+                                "x": "[Unknown]",
+                                "y": "[Unknown]",
+                                "info_content": "[Unknown]",
+                                "info_height": "[Unknown]",
+                                "tip_content": "[Unknown]",
+                                "tip_height": "[Unknown]",
+                                "boxArea_height": "[Unknown]",
+                                "status": "[Unknown]",
+                                "x0": "[Unknown]",
+                                "y0": "[Unknown]"
+                            },
+                            "[Unknown]"
+                        ],
+                        "_children": "[Unknown]",
+                        "depth": "[Unknown]",
+                        "parent": "[Unknown]",
+                        "x": "[Unknown]",
+                        "y": "[Unknown]",
+                        "info_content": "[Unknown]",
+                        "info_height": "[Unknown]",
+                        "tip_content": "[Unknown]",
+                        "tip_height": "[Unknown]",
+                        "boxArea_height": "[Unknown]",
+                        "status": "[Unknown]",
+                        "x0": "[Unknown]",
+                        "y0": "[Unknown]"
+                    },
+                    "[Unknown]",
+                    "[Unknown]"
+                ],
+                "_children": "[Unknown]",
+                "depth": "[Unknown]",
+                "parent": "[Unknown]",
+                "x": "[Unknown]",
+                "y": "[Unknown]",
+                "info_content": "[Unknown]",
+                "info_height": "[Unknown]",
+                "tip_content": "[Unknown]",
+                "tip_height": "[Unknown]",
+                "boxArea_height": "[Unknown]",
+                "status": "[Unknown]",
+                "x0": "[Unknown]",
+                "y0": "[Unknown]"
+            },
+            "[Unknown]"
+        ],
+        "_children": "[Unknown]",
+        "depth": "[Unknown]",
+        "parent": "[Circular]",
+        "x": "[Unknown]",
+        "y": "[Unknown]",
+        "info_content": "[Unknown]",
+        "info_height": "[Unknown]",
+        "tip_content": "[Unknown]",
+        "tip_height": "[Unknown]",
+        "boxArea_height": "[Unknown]",
+        "status": "[Unknown]",
+        "x0": "[Unknown]",
+        "y0": "[Unknown]"
+    },
+    "[Unknown]"
+], "_children": "[Unknown]", "depth": "[Unknown]", "x": "[Unknown]", "y": "[Unknown]", "info_content": "[Unknown]", "info_height": "[Unknown]", "tip_content": "[Unknown]", "tip_height": "[Unknown]", "boxArea_height": "[Unknown]", "status": "[Unknown]", "x0": "[Unknown]", "y0": "[Unknown]"}

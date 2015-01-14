@@ -9,7 +9,7 @@ define([
         .post('/signin', $scope.signinData)
         .success(function (data, status, headers, config) {
           //$state.go('user.home');
-          $state.go('/create');
+          $state.go('select');
         })
         .error(function (data, status, headers, config) {
           $scope.loginForm.serverError = {

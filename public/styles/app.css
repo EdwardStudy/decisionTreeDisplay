@@ -7,14 +7,17 @@
     font-weight: 400
 }
 
+a {
+    cursor: pointer;
+}
+
 /*决策树样式*/
 .node {
-    cursor: pointer
 }
 
 .node-shape {
     fill: #fff;
-    stroke-width: 2px
+    stroke-width: 2px;
 }
 
 .link {
@@ -110,10 +113,10 @@
     transform-origin: left top;
     z-index: 102;
 }
-
-/*.dtree-topic .divs div {*/
-    /*border: 1px solid #0000f6;*/
-/*}*/
+        /*测试用div线框*/
+.dtree-topic .divs div {
+    border: 1px solid #0000f6;
+}
 
 .dtree-topic .divs p {
     cursor: pointer;
@@ -125,15 +128,18 @@
 
 .dtree-topic .divs .div-box-area,
 .dtree-topic .divs .end-area,
-.dtree-topic .divs .title-box,
 .dtree-topic .divs .shape-box,
 .dtree-topic .divs .tip-box,
 .dtree-topic .divs .toggle-children-box,
+.dtree-topic .divs .title-box,
+.dtree-topic .divs .prob-box,
 .dtree-topic .divs .info-box,
 .dtree-topic .divs .toggle-tip-box {
     position: absolute;
 }
-
+.dtree-topic .divs .div-box-area{
+    cursor: pointer;
+}
 .dtree-topic .divs .tip-box {
     border: 1px solid #ffcc66;
     background-color: #ffffcb;
@@ -157,17 +163,34 @@
     display: none;
 }
 
-.dtree-topic .divs .title-box {
-    border-left: 5px solid #ff5d60;
+.dtree-topic .divs .title-box,
+.dtree-topic .divs .prob-box,
+.dtree-topic .divs .info-box{
     border-top: 1px solid #AAAAAA;
     border-right: 1px solid #AAAAAA;
     border-bottom: 1px solid #AAAAAA;
 }
 
-.dtree-topic .divs .title-box-p {
-    padding-left: 5px;
+.dtree-topic .divs .title-box {
+    border-left: 5px solid #ff5d60;
 }
-
+.dtree-topic .divs .prob-box {
+    border-left: 5px solid #80ff9f;
+}
+.dtree-topic .divs .info-box {
+    border-left: 5px solid #4cffff;
+}
+.dtree-topic .divs .title-box-p,
+.dtree-topic .divs .prob-box-p,
+.dtree-topic .divs .info-box-p
+{
+    height: 20px;
+    padding: 2px 2px 2px 5px;
+}
+.dtree-topic .divs .prob-box.null {
+    margin: 8px 0 0 6px;
+    border: none;
+}
 .dtree-topic .divs .title-box-p.selected {
     padding: 0px;
     border: 2px solid #FACD22;
@@ -179,29 +202,18 @@
     margin-top: 2px;
 }
 
-.dtree-topic .divs .info-box {
-    border-left: 5px solid #4cffff;
-    border-top: 1px solid #AAAAAA;
-    border-right: 1px solid #AAAAAA;
-    border-bottom: 1px solid #AAAAAA;
-}
-
 .dtree-topic .divs .info-box.null {
     margin: 8px 0 0 6px;
     border: none;
-}
-
-.dtree-topic .divs .info-box-p {
-    height: 20px;
-    padding: 2px 2px 2px 5px;
 }
 
 .dtree-topic .divs .info-box-p.selected {
     padding: 0px;
     border: 2px solid #FACD22;
 }
+
 .dtree-topic .divs .end-area{
-    border-left: 5px solid #80ff9f;
+    border-left: 1px solid #AAAAAA;
     border-top: 1px solid #AAAAAA;
     border-right: 1px solid #AAAAAA;
     border-bottom: 1px solid #AAAAAA;
@@ -294,6 +306,19 @@
 .body-lock .nav-header,
 .body-tasks .nav-header {
     display: none;
+}
+.body-select .nav-header aside {
+    display: none;
+}
+.body-select #content {
+    z-index: 2;
+    left: 0;
+}
+.btn-icon-round[disabled]{
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.65;
+    box-shadow: none;
 }
 
 /*来自SmartAdmin的修改*/

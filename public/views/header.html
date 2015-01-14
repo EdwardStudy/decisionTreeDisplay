@@ -66,7 +66,13 @@
                     <i class="fa fa-arrows-alt nav-icon"  data-i18n="full screen" data-display-area="title"></i>
                 </a>
             </li>
+            <li>
+                <a ui-sref="javascript:;">
+                    {{project.project_name}}
+                </a>
+            </li>
         </ul>
+
 
         <ul class="nav-right pull-right list-unstyled">
             <li class="dropdown langs text-normal" data-ng-controller="LangCtrl">
@@ -97,35 +103,30 @@
                 </a>
                 <ul class="dropdown-menu with-arrow pull-right">
                     <li>
-                        <a ui-sref="/profile">
+                        <a ui-sref="profile">
                             <i class="fa fa-user"></i>
                             <span data-i18n="My Profile"></span>
                         </a>
                     </li>
                     <li>
-                        <a ui-sref="/404">
+                        <a ui-sref="404">
                             <i class="fa fa-check"></i>
                             <span data-i18n="My Tasks"></span>
                         </a>
                     </li>
                     <li>
-                        <a ui-sref="/lock-screen">
+                        <a ui-sref="lock-screen">
                             <i class="fa fa-lock"></i>
                             <span data-i18n="Lock"></span>
                         </a>
                     </li>
                     <li>
-<!--                         <a ui-sref="/signin">
+                        <form name="form" class="form-control btn btn-logout" action="/signout" method="post" accept-charset="utf-8" target="target">
+                        <a class=" "href="javascript:;" onclick="document.form.submit();">
                             <i class="fa fa-sign-out"></i>
-                            <span data-i18n="Lock"></span> -->
-                        <form action="/signout" method="post" accept-charset="utf-8" target="target">
-                            <input type="submit" name="signout" data-i18n="Log Out" />
-                        </form>
- <!--                        </a> -->
-                        <!-- <a ui-sref="/signin">
-                            <i class="fa fa-sign-out"></i>
-                            <span ></span>
-                        </a> -->
+                            <span data-i18n=" Log out"></span>
+                        </a> 
+                        </form>                         
                     </li>
                 </ul>
             </li>
