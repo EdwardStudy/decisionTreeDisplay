@@ -1,5 +1,6 @@
 /*
 * app/controllers/dtree.js
+* 15/1/9 开始融入主项目
 */
 var mongoose = require('mongoose');
 var ObjectId = require('mongoose').Types.ObjectId;
@@ -12,6 +13,7 @@ var _ = require("underscore")._;
 
 mongoose.model('DTree');
 
+//execute route POST /dtree
 exports.createDTree = function(req, res){
     var frontData = req.body;
     console.log('Info: createDTree: POST: frontData = ', frontData);
@@ -44,6 +46,7 @@ exports.createDTree = function(req, res){
 };
 
 //将读取数据库的数据，将其node_array的节点反序列化
+//execute route GET /dtree/:dtree_id
 exports.readDTree = function (req, res) {
 	var checkId = new ObjectId(req.params.dtree_id);
 	var node_array;
@@ -66,6 +69,7 @@ exports.readDTree = function (req, res) {
 	});
 };
 
+//execute route PUT /dtree/:dtree_id
 exports.updateDTree = function (req, res) {
 		//查询依据
         var id = new ObjectId(req.params.dtree_id);
@@ -82,17 +86,37 @@ exports.updateDTree = function (req, res) {
 
 		//向数据库更新部分内容
         frontData.config.last_saved = Date.now();
-		Dtree.update({"_id": id}, frontData, function(err){
-			if(err){
+        //frontData.__v++;
+        Dtree.update({"_id": id},  {
+            payoff_array: frontData.payoff_array,
+            distribution_array: frontData.distribution_array,
+            table_array: frontData.table_array,
+            param_category_array: frontData.param_category_array,
+            param_array: frontData.param_array,
+            node_array: frontData.node_array,
+            config: frontData.config,
+            $inc: {__v: 1}
+        }, function(err){
+            if(err){
                 console.log('Error: updateDTree: DB failed to update due to ', err);
-				res.send({'success':false, 'err':err});
-			}else{
+                res.send({'success':false, 'err':err});
+            }else{
                 console.log('Info: updateDTree: DB updated successully dtree');
                 res.send({'success':true});
-			}
-		});
+            }
+        });
+//		Dtree.update({"_id": id}, frontData, function(err){
+//			if(err){
+//                console.log('Error: updateDTree: DB failed to update due to ', err);
+//				res.send({'success':false, 'err':err});
+//			}else{
+//                console.log('Info: updateDTree: DB updated successully dtree');
+//                res.send({'success':true});
+//			}
+//		});
 };
 
+//execute route DELETE /dtree/:dtree_id
 exports.deleteDTree = function(req, res){
     Dtree.findByIdAndRemove(req.params.dtree_id, function(err, dropDtree){
         if(err){

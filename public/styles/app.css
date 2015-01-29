@@ -10,6 +10,7 @@
 a {
     cursor: pointer;
 }
+/*end of */
 
 /*决策树样式*/
 .node {
@@ -25,7 +26,6 @@ a {
     stroke: #ccc
 }
 
-/*我的决策树样式*/
 .dtree-topic {
     height: 100%;
     width: 100%;
@@ -222,7 +222,7 @@ a {
     padding:10px 4px;
 }
 
-/*滑动轴*/
+    /*滑动轴*/
 .axisArea path, .axisArea line {
     fill: none;
     stroke: #000;
@@ -258,35 +258,8 @@ a {
     stroke-dasharray: 6, 2;
     stroke-opacity: .1;
 }
+/*end of 决策树样式*/
 
-/*jquery-layout分层，必须的CSS*/
-.app-layout {
-    min-height: 300px;
-    min-width: 600px;
-    position: absolute;
-    top: 0px; /* margins in pixels */
-    bottom: 0px; /* could also use a percent */
-    left: 0px;
-    right: 0px;
-}
-
-.pane {
-    display: none; /* will appear when layout inits */
-}
-
-/*jquery-layout与bootstrap3冲突的修复*/
-.ui-layout-pane {
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-}
-
-.ui-layout-pane:before,
-.ui-layout-pane:after {
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-}
 
 /*测试用d3区域样式*/
 .light-heading {
@@ -301,7 +274,7 @@ a {
     height: 300px;
 }
 
-/*对flatify 的nav自动缩放的修改*/
+/*对flatify 的nav是否显示的修改*/
 .body-special .nav-header,
 .body-lock .nav-header,
 .body-tasks .nav-header {
@@ -320,6 +293,7 @@ a {
     opacity: 0.65;
     box-shadow: none;
 }
+/*end of flatify*/
 
 /*来自SmartAdmin的修改*/
 /*
@@ -448,7 +422,6 @@ a {
 .tabs-left > .nav-tabs,
 .tabs-left > .nav-pills {
     float: left;
-    margin-right: 19px;
     border-right: 1px solid #dddddd;
     width: 139px;
 }
@@ -474,7 +447,7 @@ a {
 }
 
 .tabs-left > .tab-content {
-    margin-left: 109px;
+    margin-left: 139px;
 }
 
 .tabs-right > .nav-tabs {
@@ -549,11 +522,39 @@ a {
     width: auto;
     overflow-y: auto;
 }
-
-
 /* end of tabs */
 
+
+
 /*覆盖jquery-layout*/
+/*jquery-layout分层，必须的CSS*/
+.app-layout {
+    min-height: 300px;
+    min-width: 600px;
+    position: absolute;
+    top: 0px; /* margins in pixels */
+    bottom: 0px; /* could also use a percent */
+    left: 0px;
+    right: 0px;
+}
+.pane {
+    display: none; /* will appear when layout inits */
+}
+
+/*jquery-layout与bootstrap3冲突的修复*/
+.ui-layout-pane {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.ui-layout-pane:before,
+.ui-layout-pane:after {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+/*jquery-layout外貌的定制*/
 .ui-layout-south {
     padding: 2px;
 }
@@ -563,44 +564,10 @@ a {
 .ui-layout-south .ui-tab-container .tab-content{
     padding: 0px;
 }
-
-.tab-pane .anGrid {
-    position: absolute;
-    top: 50px;
-    bottom: 0px;
-    left: 2px;
-    right: 2px;
-    height: auto;
-    width: auto;
-}
-.tab-pane .tab-pane .anGrid {
-    position: absolute;
-    top: 50px;
-    bottom: 0px;
-    left: 149px;
-    right: 2px;
-    height: auto;
-    width: auto;
-}
-.tab-pane .anGrid.with-button-bar {
-    top: 85px;
-}
-.form-group .icon {
-    position: absolute;
-    right: 25px;
-    top: 10px;
-}
-.button-bar {
-    margin: 3px 15px;
-}
-.ui-layout-canvas {
-    padding: 0px;
-    overflow: hidden;
-}
-
-/*#canvas*/
+/*end of jquery-layout*/
 
 
+/*#canvas, 整个背景绘图区域*/
 #canvas {
     z-index: 100;
     overflow: auto;
@@ -739,4 +706,154 @@ a {
 .dropdown-submenu.pull-left > .dropdown-menu {
     left: -100%;
     margin-left: 10px;
+}
+/*end of 右键菜单*/
+
+/*anGrid定制*/
+    /*控制区tab-pane处anGrid的定制*/
+.tab-pane .anGrid {
+    position: absolute;
+    top: 50px;
+    bottom: 0px;
+    left: 2px;
+    right: 2px;
+    height: auto;
+    width: auto;
+}
+.tab-grid-warp {
+    position: absolute;
+    top: 50px;
+    bottom: 5px;
+    left:144px;
+    right:5px;
+}
+.tab-grid-warp.left {
+    left: 144px;
+    right:50%;
+}
+.tab-grid-warp.right {
+    left: 50%;
+    right:5px;
+}
+.tab-grid-warp.all{
+    left:5px;
+    right:5px;
+}
+.tab-grid-warp .anGrid{
+    position: absolute;
+    top: 50px;
+    bottom: 0px;
+    left: 2px;
+    right: 2px;
+    height: auto;
+    width: auto;
+}
+.panel.tab-grid-warp{
+    margin-bottom: 0px;
+}
+.anGrid.table_detail_grid{
+    top: 105px;
+}
+.form-group .icon {
+    position: absolute;
+    right: 25px;
+    top: 10px;
+}
+.button-bar {
+    margin: 3px 15px;
+}
+.ui-layout-canvas {
+    padding: 0px;
+    overflow: hidden;
+}
+    /*distrbution选择区 anGrid的定制*/
+.distr-gird {
+    text-align: left;
+    text-indent: 10px;
+    vertical-align: top;
+    cursor: pointer;
+}
+.distr-icon {
+    display: inline-block;
+    width: 42px;
+    height: 30px;
+    line-height: 25px;
+    vertical-align: bottom;
+    background-image: url("img/distribution.png");
+    background-repeat: no-repeat;
+}
+.distr-icon.Normal {
+     background-position: 0 -5px;
+}
+.distr-icon.Uniform {
+    background-position: 0px -40px;
+}
+.distr-icon.Triangular {
+    background-position: 0px -70px;
+}
+.distr-icon.Beta {
+    background-position: 0px -105px;
+}
+.distr-icon.Chi {
+    background-position: 0px -135px;
+}
+.distr-icon.ChiSqured {
+    background-position: 0px -165px;
+}
+.distr-icon.Erlang {
+    background-position: 0px -200px;
+}
+.distr-icon.Exponential {
+    background-position: 0px -235px;
+}
+.distr-icon.Gamma {
+    background-position: 0px -265px;
+}
+.distr-icon.HyperExponential {
+    background-position: 0px -300px;
+}
+.distr-icon.Laplace {
+    background-position: 0px -335px;
+}
+.distr-icon.Logistic {
+    background-position: 0px -365px;
+}
+.distr-icon.LogNormal {
+    background-position: 0px -400px;
+}
+.distr-icon.Maxwell {
+    background-position: 0px -435px;
+}
+.distr-icon.Rayleigh {
+    background-position: 0px -465px;
+}
+.distr-icon.Weibull {
+    background-position: 0px -500px;
+}
+.distr-icon.Possion {
+    background-position: 0px -535px;
+}
+.distr-icon.Binomial {
+    background-position: 0px -565px;
+}
+.distr-icon.Gaussian_Fractal {
+    background-position: 0px -600px;
+}
+.distr-icon.Swanson_Fractal {
+    background-position: 0px -600px;
+}
+.distr-icon.Table {
+    background-position: 0px -635px;
+}
+.distr-icon.Drichlet {
+    background-position: 0px -665px;
+}
+.distr-icon.MultiNormal {
+    background-position: 0px -700px;
+}
+/*end of anGrid定制*/
+
+/*jquery UI dialog custom*/
+.ui-dialog-content.ui-widget-content {
+    margin-bottom:-40px;
 }

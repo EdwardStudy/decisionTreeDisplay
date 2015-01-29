@@ -250,7 +250,7 @@
 			"table_id":    1,
 			"name":        "cFood_and_drink",
 			"value":       [[100, 300], [200,400]],
-			"display":     true,
+			"column":      2,
 			"description": "cost table for food and drink",
 			"comment":     ""
 		}
@@ -260,11 +260,11 @@
 		{
 			"distr_id":    1,
 			"name":        "Dis_uBag_bought",
-			"type":        "beta",
+			"type":        "Beta",
 			"value":       [8,4],
-			"display":     true,
 			"description": "Distribution of happiness lvl for buying a bag",
-			"comment":     ""
+			"category":    "",
+			"commnet":     ""
 		}
 	],
 

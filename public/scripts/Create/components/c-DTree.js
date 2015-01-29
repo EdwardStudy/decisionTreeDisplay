@@ -359,6 +359,7 @@ define([
 			 * 			     按照当前数据重新绘图
 			 */
 			var resetDTree = function () {
+				console.log("dtree.js:setData:_data=", DATA);
 				ViSUALIZATION = visualize(DATA, CONFIG);
 				ViSUALIZATION.update(DATA);
 			}

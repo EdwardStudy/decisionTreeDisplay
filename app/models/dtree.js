@@ -8,6 +8,7 @@
  * 14/12/9 完美适配 20141205_new_structure.json
  * 15/1/1 依据最新修改的20141205_new_structure.json 修改schema的键
  * 15/1/4
+ * 15/1/9 开始融入主项目
  */
 var mongoose = require('mongoose');
 
@@ -119,5 +120,5 @@ dtreeSchema.statics.findByName = function(name, callback){
   });
 };
 
-// Build the User model
+// Build the Dtree model
 mongoose.model( 'DTree', dtreeSchema );

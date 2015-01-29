@@ -11,7 +11,7 @@
             };
         }
     ])
-	//背景变换，根据不同的连接更改北京
+	//背景变换，根据不同的连接更改背景
     .directive('customBackground', function() {
         return {
             restrict: "A",
@@ -268,12 +268,43 @@
             };
         }
     ])
+	//自定义select单项选择器
+	.directive('selectList', ['$compile',
+		function($compile) {
+			return {
+				restrict:   'E',
+				scope:      {
+					array:     "=",
+					select:    "=",
+					templete:  "="
+				},
+				replace:    true,
+				transclude: true,
+				link: function ($scope, $element, $attrs) {
+					//一开始默认选中第一个
+					$scope.select = $scope.select || $scope.array[0];
+
+					$scope.returnData = function(a){
+						$scope.select = a;
+					}
+
+					//默认模版
+					var defaultTemplete =
+							'<div class="well well-lg">'
+							+'<div ng-repeat="a in array" ng-click="returnData(a)">{{a.name}}</div>'
+							+'</div>';
+					var T = $scope.templete ? $scope.templete : defaultTemplete;
+					$element.append($compile( T )($scope));
+				}
+			};
+		}
+	])
     //jquery layout插件
     .directive('appLayout', [
         function(){
             return function(scope, $element){
                 $($element).layout({
-                    south__size: 			.30		// percentage size expresses as a decimal
+                    south__size: 			.40		// percentage size expresses as a decimal
                 });
             };
         }

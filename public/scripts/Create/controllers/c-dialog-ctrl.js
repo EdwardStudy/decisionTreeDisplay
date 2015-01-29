@@ -5,8 +5,9 @@ define([
 	app.controller('addParameterDialogCtrl',
 		['$scope', 'dialogService',
 		 function ($scope, dialogService) {
+
 			 $scope.showInfoOnSubmit = false;
-			 $scope.submitForm = function () {
+			 $scope.submitForm = function (){
 				 dialogService.close("addParameterDialog", $scope.model);
 			 }
 
@@ -17,18 +18,16 @@ define([
 		]);
 
 	//测试用对话框控制器
-	app.controller('dialogCtrl',
-		['$scope', 'dialogService',
-		 function ($scope, dialogService) {
-			 // $scope.model contains the object passed to open in config.model
+	app.controller('deleteDialogCtrl', ['$scope', 'dialogService',
+	   function ($scope, dialogService) {
 
-			 $scope.saveClick = function () {
-				 dialogService.close("myDialog", $scope.model);
-			 };
+		   $scope.confirmClick = function () {
+			   dialogService.close("deleteDialog", $scope.model);
+		   };
 
-			 $scope.cancelClick = function () {
-				 dialogService.cancel("myDialog");
-			 };
-		 }
-		]);
+		   $scope.cancelClick = function () {
+			   dialogService.cancel("deleteDialog");
+		   };
+	   }
+	]);
 });

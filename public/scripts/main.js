@@ -21,6 +21,8 @@ require.config({
 
         ,'underscore':            '../lib/underscore-1.6.0/underscore'
 
+        ,'mathjs':            '../lib/mathjs-1.2.0/mathjs.min'
+
         ,'d3' : '../lib/d3/require-d3'
 		,'d3.superformula' : '../lib/d3/d3.superformula'
 

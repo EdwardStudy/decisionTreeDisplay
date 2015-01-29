@@ -15,14 +15,27 @@ define([], function () {
 				url:          "/creates/:project_id/:project_name",
 				templateUrl:  '/views/v_Create/tpl-C.html',
 				dependencies: [
+					//核心控制器
 					'Create/controllers/c-createTree-ctrl',
-					'Create/controllers/c-dialog-ctrl',
-					'Create/controllers/c-dialog-ctrl',
 					'Create/directives/c-DTree-directive',
 					'Create/services/c-DTree-service',
 					'Create/services/c-DTree-crud-service',
+					//table子模块
+					'Create/controllers/c-table-ctrl',
+					'Create/services/c-table-service',
+					//distribution子模块
+					'Create/controllers/c-distr-ctrl',
+					'Create/services/c-distr-service',
+					//通用辅助服务
 					'Common/directives/UIDirective',
-					'Common/services/dialog-service'
+					'Create/controllers/c-dialog-ctrl',
+					'Common/services/dialog-service',
+					'Common/services/pubsub-service',
+					'Common/services/UIService',
+
+					//配置文件
+					'Common/config/tree-config',
+					'Common/config/distr-config'
 				]
 			},
 			'fuck':             {
@@ -100,7 +113,6 @@ define([], function () {
 			},
 
 			'person': {
-				noAuth:       true,
 				url:         "/about/:person",
 				templateUrl: '/views/v_Common/about.html'
 			}

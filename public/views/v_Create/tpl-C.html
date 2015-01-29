@@ -139,57 +139,147 @@
 
             <tab heading="Tree Properties">
                 <tabset class="ui-tab tabs-left">
+
                     <tab heading="variables">
-                        <div class="row button-bar">
-                            <div class="col-md-8">
-                                <div class="widget-container">
-                                    <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-primary"
-                                       data-ng-disabled="selectedNodeParamData.length == 0" ng-click="openEditParameterDialog()"><i class="fa fa-edit"></i></a>
-                                    <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-success"
-                                       data-ng-disabled="!selectedNodeData" ng-click="openAddParameterDialog()"><i class="fa fa-plus"></i></a>
-                                    <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-danger"
-                                       data-ng-disabled="selectedNodeParamData.length == 0" ng-click="openDeleteParameterDialog()"><i class="fa fa-times"></i></a>
+                        <div class="tab-grid-warp">
+                            <div class="row button-bar">
+                                <div class="col-md-8">
+                                    <div class="widget-container">
+                                        <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-primary"
+                                           data-ng-disabled="selectedNodeParamData.length == 0"
+                                           ng-click="openEditParameterDialog()"><i class="fa fa-edit"></i></a>
+                                        <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-success"
+                                           data-ng-disabled="!selectedNodeData" ng-click="openAddParameterDialog()"><i
+                                                class="fa fa-plus"></i></a>
+                                        <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-danger"
+                                           data-ng-disabled="selectedNodeParamData.length == 0"
+                                           ng-click="openDeleteParameterDialog()"><i class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <input type="text" class="form-control" ng-model="variablesGridOption.searchFilter">
+                                    <span class="icon glyphicon glyphicon-search"></span>
                                 </div>
                             </div>
-                            <div class="form-group col-md-3">
-                                <input type="text" class="form-control" ng-model="variablesGridOption.searchFilter">
-                                <span class="icon glyphicon glyphicon-search"></span>
+                            <div angrid="variablesGridOption"></div>
+                        </div>
+                    </tab>
+
+                    <tab heading="tables" ng-controller="tableCtrl">
+                        <div class="tab-grid-warp left">
+                            <div class="row button-bar">
+                                <div class="col-md-8">
+                                    <div class="widget-container">
+                                        <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-primary"
+                                           data-ng-disabled="selected_table_array.length == 0"><i
+                                                ng-click="openEditTableDialog()" class="fa fa-edit"></i></a>
+                                        <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-success"
+                                           ng-click="openAddTableDialog()"><i class="fa fa-plus"></i></a>
+                                        <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-danger"
+                                           data-ng-disabled="selected_table_array.length == 0"><i
+                                                ng-click="openDeleteTableDialog()" class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <input type="text" class="form-control"
+                                           ng-model="table_grid_option.searchFilter">
+                                    <span class="icon glyphicon glyphicon-search"></span>
+                                </div>
+                            </div>
+                            <div angrid="table_grid_option"></div>
+                        </div>
+                        <div class="panel panel-default tab-grid-warp right">
+                            <div class="panel-heading">
+                                <i class="glyphicon glyphicon-th"></i>
+                                <span ng-show="selected_table_array.length == 0">No Table Selected</span>
+                                <span ng-show="selected_table_array.length > 0">Table Details for: {{selected_table_array[0].name}}</span>
+                            </div>
+
+                            <div class="panel-body ng-scope">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="widget-container">
+                                            <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-primary"
+                                               data-ng-disabled="selected_table_array.length == 0"><i
+                                                    ng-click="openEditTableDialog()" class="fa fa-edit"></i></a>
+                                            <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-success"
+                                               ng-click="openAddTableDialog()"><i class="fa fa-plus"></i></a>
+                                            <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-danger"
+                                               data-ng-disabled="selected_table_array.length == 0"><i
+                                                    ng-click="openDeleteTableDialog()" class="fa fa-times"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <input type="text" class="form-control"
+                                               ng-model="table_grid_option.searchFilter">
+                                        <span class="icon glyphicon glyphicon-search"></span>
+                                    </div>
+                                </div>
+                                <div angrid="table_grid_option" class="table_detail_grid"></div>
                             </div>
                         </div>
-                        <div angrid="variablesGridOption" class="with-button-bar"></div>
                     </tab>
-                    <tab heading="tables">
+
+                    <tab heading="distribution" ng-controller="distrCtrl">
+                        <div class="tab-grid-warp">
+                            <div class="row button-bar">
+                                <div class="col-md-8">
+                                    <div class="widget-container">
+                                        <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-primary"
+                                           data-ng-disabled="selected_distr_array.length == 0"><i
+                                                ng-click="openEditDistrDialog()" class="fa fa-edit"></i></a>
+                                        <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-success"
+                                           ng-click="openAddDistrDialog()"><i class="fa fa-plus"></i></a>
+                                        <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-danger"
+                                           data-ng-disabled="selected_distr_array.length == 0"><i
+                                                ng-click="openDeleteDistrDialog()" class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <input type="text" class="form-control" ng-model="distr_grid_option.searchFilter">
+                                    <span class="icon glyphicon glyphicon-search"></span>
+                                </div>
+                            </div>
+                            <div angrid="distr_grid_option"></div>
+                        </div>
                     </tab>
-                    <tab heading="distribution">
-                    </tab>
+
                     <tab heading="general">
-                        <div angrid="generalGridOption"></div>
+                        <div class="tab-grid-warp">
+                            <div angrid="generalGridOption"></div>
+                        </div>
                     </tab>
                 </tabset>
             </tab>
 
             <tab heading="Node redefined">
-                <div class="row button-bar">
-                    <div class="col-md-8">
-                        <div class="widget-container">
-                            <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-primary"
-                               data-ng-disabled="selectedNodeParamData.length == 0" ng-click="openEditParameterDialog()"><i class="fa fa-edit"></i></a>
-                            <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-success"
-                               data-ng-disabled="!selectedNodeData" ng-click="openAddParameterDialog()"><i class="fa fa-plus"></i></a>
-                            <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-danger"
-                               data-ng-disabled="selectedNodeParamData.length == 0" ng-click="openDeleteParameterDialog()"><i class="fa fa-times"></i></a>
+                <div class="tab-grid-warp all">
+                    <div class="row button-bar">
+                        <div class="col-md-8">
+                            <div class="widget-container">
+                                <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-primary"
+                                   data-ng-disabled="selectedNodeParamData.length == 0"
+                                   ng-click="openEditParameterDialog()"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-success"
+                                   data-ng-disabled="!selectedNodeData" ng-click="openAddParameterDialog()"><i
+                                        class="fa fa-plus"></i></a>
+                                <a href="javascript:;" class="btn-icon-round btn-icon-round-sm bg-danger"
+                                   data-ng-disabled="selectedNodeParamData.length == 0"
+                                   ng-click="openDeleteParameterDialog()"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <input type="text" class="form-control" ng-model="NodeGridOption.searchFilter">
+                            <span class="icon glyphicon glyphicon-search"></span>
                         </div>
                     </div>
-                    <div class="form-group col-sm-4">
-                        <input type="text" class="form-control" ng-model="NodeGridOption.searchFilter">
-                        <span class="icon glyphicon glyphicon-search"></span>
-                    </div>
+                    <div angrid="NodeGridOption" class="with-button-bar"></div>
                 </div>
-                <div angrid="NodeGridOption" class="with-button-bar"></div>
             </tab>
 
             <tab heading="Markov Info">
                 <p>this is test</p>
+
                 <p>selectedNodeParamData: {{selectedNodeParamData}}</p>
             </tab>
 
@@ -200,8 +290,8 @@
                 <section class="panel panel-default">
                     <div class="panel-heading"><span class="glyphicon glyphicon-th"></span> Notify</div>
                     <div class="panel-body ng-scope">
-                        <button class="btn btn-gap btn-warning" ng-click="createDtreeData()" >create</button>
-                        <button class="btn btn-gap btn-info" ng-click="readDtreeData()" >read</button>
+                        <button class="btn btn-gap btn-warning" ng-click="createDtreeData()">create</button>
+                        <button class="btn btn-gap btn-info" ng-click="readDtreeData()">read</button>
                         <button class="btn btn-gap btn-success" ng-click="updateDtreeData()">update</button>
                         <button class="btn btn-gap btn-danger" ng-click="deleteDtreeData()">delete</button>
                     </div>
@@ -224,13 +314,21 @@ dialogCtrl controller in app.js.
 </script>
 
 <!--
-delete parameter dialog
+common delete dialog
 -->
-<script type="text/ng-template" id="deleteParameterDialog.html">
-    <div>
-        <div class='widget-header'>
-            <h4><i class='fa fa-warning'></i>Do you really want to delete this parameter?</h4>
-            <p ng-repeat="m in model">{{m.name}} {{m.description}}</p>
+<script type="text/ng-template" id="deleteDialog.html">
+    <div ng-controller="deleteDialogCtrl">
+        <p><h4><i class='fa fa-warning'></i>Do you really want to delete this?</h4></p>
+        <div class="callout callout-info">
+            <p ng-repeat="m in model">
+                {{m.name}}
+            </p>
+        </div>
+        <div style="height: 70px; margin-bottom: 10px;">
+            <button class="btn btn-gap btn-primary" data-ng-click="confirmClick()"><i class='fa fa-trash-o'></i>&nbsp;delete
+            </button>
+            <button class="btn btn-gap btn-warning" data-ng-click="cancelClick()"><i class='fa fa-times'></i>cancel
+            </button>
         </div>
     </div>
 </script>
@@ -320,5 +418,179 @@ add parameter dialog
                 </form>
             </div>
         </div>
+    </div>
+</script>
+
+
+<!--
+add distribution dialog
+-->
+<script type="text/ng-template" id="addDistrDialog.html">
+    <div>
+        <div class="panel panel-default" ng-controller="addDistrDialogCtrl">
+            <form name="form_DistrEdit" class="form-horizontal form-validation" data-ng-submit="saveClick()">
+                <div class="panel-body">
+                    <fieldset>
+                        <div class="col-sm-5">
+                            <div angrid="distr_select_option" style="height:530px;"></div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <a href="select_distr.introduce" target="_blank"><strong class="tl-tile text-primary"><i
+                                        class="distr-icon {{select_distr.name}}"></i>about {{select_distr.name}}
+                                    distribution</strong></a>
+                            </div>
+                            <div class="form-group">
+                                <label for="select_distr_name" class="col-sm-3">Name</label>
+
+                                <div class="col-sm-9">
+                                    <input id="select_distr_name" type="text" class="form-control"
+                                           ng-model="model.name" required>
+                                    <span class="icon glyphicon glyphicon-star"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="select_distr_description" class="col-sm-3">Description</label>
+
+                                <div class="col-sm-9">
+                                    <input id="select_distr_description" type="text" class="form-control"
+                                           ng-model="model.description">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="select_distr_comment" class="col-sm-3">Comment</label>
+
+                                <div class="col-sm-9">
+                                    <textarea id="select_distr_comment" class="form-control" rows="3"
+                                              ng-model="model.comment"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div><strong><span class="glyphicon glyphicon-th"></span>
+                                    {{select_distr.name}} Distribution Parameter</strong></div>
+                            </div>
+                            <div ng-repeat="p in select_distr.parameter">
+                                <div class="form-group" ng-show="showOptionalParam(p, showOptional)">
+                                    <label for="select_distr_param" class="col-sm-3">{{p.name}}</label>
+
+                                    <div class="col-sm-9">
+                                        <input id="select_distr_param" type="text" class="form-control"
+                                               ng-model="model.value[$index]" ng-pattern="/^[0-9]+(\.[0-9]+)?$/"/>
+                                        <span class="icon glyphicon glyphicon-star" ng-show="!p.optional"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="select_distr.optional">
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <label for="show_optional_flag">
+                                            <span ng-hide="showOptional">show</span>
+                                            <span ng-show="showOptional">hide</span>
+                                            optional paramter
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="switch switch-success">
+                                            <input id="show_optional_flag" type="checkbox"
+                                                   ng-model="showOptional"><i></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <!-- end of panel-body -->
+
+                <div class="panel-footer panel-default">
+                    <button type="submit"
+                            class="btn btn-primary"
+                            data-ng-disabled="!form_DistrEdit.$valid">Save
+                    </button>
+                    <button type="button"
+                            class="btn btn-warning"
+                            data-ng-click="cancelClick()">Cancel
+                    </button>
+                </div>
+                <!-- end of panel-footer -->
+            </form>
+        </div>
+        <!-- end of panel -->
+    </div>
+</script>
+
+<!--
+add table dialog
+-->
+<script type="text/ng-template" id="addTableDialog.html">
+    <div>
+        <div class="panel panel-default" ng-controller="addTableDialogCtrl">
+            <form name="form_table_edit" class="form-horizontal form-validation" data-ng-submit="saveClick()">
+                <div class="panel-body">
+                    <fieldset>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="select_table_name" class="col-sm-3">Name</label>
+
+                                <div class="col-sm-9">
+                                    <input id="select_table_name" type="text" class="form-control"
+                                           ng-model="model.name" required>
+                                    <span class="icon glyphicon glyphicon-star"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="select_table_description" class="col-sm-3">Description</label>
+
+                                <div class="col-sm-9">
+                                    <input id="select_table_description" type="text" class="form-control"
+                                           ng-model="model.description">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="select_table_comment" class="col-sm-3">Comment</label>
+
+                                <div class="col-sm-9">
+                                    <textarea id="select_table_comment" class="form-control" rows="3"
+                                              ng-model="model.comment"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div><strong><span class="glyphicon glyphicon-th"></span>
+                                    Multi-column table setting</strong></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="table_column_number" class="col-sm-4">column number</label>
+
+                                <div class="col-sm-8">
+                                    <input id="table_column_number" type="number" class="form-control"
+                                           ng-model="model.column" data-ng-pattern="/^[1-9]\d*$/">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div>$nbsp;<strong ng-show="model.column < default_column"><span
+                                        class="glyphicon glyphicon-info-sign"></span>
+                                    Your setting column is smaller than orginal value, it may lose column data, are you
+                                    sure?</strong></div>
+                            </div>
+
+                        </div>
+                    </fieldset>
+                </div>
+                <!-- end of panel-body -->
+
+                <div class="panel-footer panel-default">
+                    <button type="submit"
+                            class="btn btn-primary"
+                            data-ng-disabled="!form_table_edit.$valid">Save
+                    </button>
+                    <button type="button"
+                            class="btn btn-warning"
+                            data-ng-click="cancelClick()">Cancel
+                    </button>
+                </div>
+                <!-- end of panel-footer -->
+            </form>
+        </div>
+        <!-- end of panel -->
     </div>
 </script>

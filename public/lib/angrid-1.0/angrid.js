@@ -41,6 +41,9 @@ angular.module('anGrid.directives', ['anGrid.services', 'anGrid.filters', 'ngSan
 				$scope.option.showFooter = this.config.showFooter;
 				$scope.option._orderByPredicate = this.config._orderByPredicate;
 				$scope.option._orderByreverse = this.config._orderByreverse;
+
+				//unSelectAllRowFuc & selectRowFuc could be used for selecting row manually,
+				//but it should be guided by $apply or $timeout
 				$scope.option.unSelectAllRowFuc = function(){
 					dataWatcher($scope.$eval($scope.option.data));
 					angular.forEach($scope.thedata, function(obj, index){
@@ -352,10 +355,6 @@ angular.module('anGrid.services', []).factory('setDefaultOption', function () {
 				enableCellEdit: false,  //edit on focus
 				_sortIconflag:  false, //the flag that decide display the sortIcon or not, you should not set
 				_style:         ''
-				//you may add function in option.columnDefs just like this
-//				columnFuc : function() {
-//					alert("you need set columnFuc");
-//				},
 			}, col);
 			option.columnDefs.splice(i, 1, col);
 		});

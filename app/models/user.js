@@ -18,14 +18,14 @@ var UserSchema = new Schema({
 
   local: {
     email: String,
-    password: String, 
+    password: String
   },
 
   facebook: {
     id: String,
     name: String,
     email: String,
-    acessToken: String,
+    acessToken: String
   } 
 }); 
 

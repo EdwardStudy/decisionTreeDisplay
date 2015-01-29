@@ -8,8 +8,22 @@ define([
 		'dialogService',
 		'createDtreeService',
 		'dtreeCrudService',
+		'pubSubService',
+		'tableService',
+		'distrService',
 		'$stateParams',
-		function ($scope, $http, $timeout, dialogService, createDtreeService, dtreeCrudService, $stateParams) {
+		function (
+			$scope,
+			$http,
+			$timeout,
+			dialogService,
+			createDtreeService,
+            dtreeCrudService,
+			pubSubService,
+			tableService,
+			distrService,
+			$stateParams
+		) {
 			//基础数据
 			//获取Dtree ID
 			$scope.DtreeId = $stateParams.project_id;
@@ -21,16 +35,13 @@ define([
 			$scope.param_array = undefined;
 			$scope.param_category_array = undefined;
 			$scope.distribution_array = undefined;
-			$scope.table_array = undefined;
 			$scope.payoff_array = undefined;
-			//样例ID
-			//$scope.dtree_id = '54a4c0947752adcc1764f0d4';
 
 
 			//读取决策树数据函数
 			$scope.selectDtreeData = function (name) {
 				createDtreeService.get({DTreeParam: name}, function (data) {
-					console.log("This DATA = ", data);
+					console.log("DATA = ", data);
 
 					$scope.tree_config = data.config;
 					$scope.node_array = deserialization(data.node_array);
@@ -38,7 +49,8 @@ define([
 					$scope.param_array = initParamArray(data.param_array, data.param_category_array);
 					$scope.param_category_array = data.param_category_array;
 					$scope.distribution_array = data.distribution_array;
-					$scope.table_array = data.table_array;
+					tableService.save(data.table_array);
+					distrService.save(data.distribution_array);_
 					$scope.payoff_array = data.payoff_array;
 
 					$scope.canvasUiStyle = data.config.layout_style;
@@ -53,6 +65,7 @@ define([
 
 				});
 			}
+
 
             //将决策树数据存到后台数据库
             $scope.createDtreeData = function(){
@@ -194,10 +207,11 @@ define([
                 }
             }
 
+
 			//node_array的初始化操作
 			var deserialization = function (node_array) {
 				if (!angular.isArray(node_array)) {
-					console.log("deserialization: input data is not a array", node_array);
+					console.log("deserialization: input data is not a array");
 					return {};
 				}
 				if (node_array.length == 0) {
@@ -236,7 +250,6 @@ define([
 
 			//给整个node结构拼接上root节点定义的变量
 			var initRootNodeParam = function (node_array, param_array) {
-                //console.log('Test: param_array',param_array);
 				if (!angular.isDefined(node_array.redefined_param_array)) {
 					console.log("initRootNodeParam: input node_array.redefined_param_array is not defined");
 				}
@@ -252,15 +265,11 @@ define([
 					}
 				});
 
-				console.log(node_array)
-
 				return node_array;
 			}
 
 			//param_array初始化机制
 			var initParamArray = function (param_array, category_array) {
-                //console.log('Test: initParamArray:node_array = ', category_array);
-                //console.log('Test: initParamArray:param_array = ', param_array);
 				if (!angular.isArray(param_array)) {
 					console.log("initParamArray: input param_array is not a array");
 					return [];
@@ -550,7 +559,7 @@ define([
 					]
 				}
 				// Open the dialog
-				dialogService.open("addParameterDialog", "deleteParameterDialog.html", model, options);
+				dialogService.open("addParameterDialog", "deleteDialog.html", model, options);
 			}
 
 			//给节点添加变量--对话框
